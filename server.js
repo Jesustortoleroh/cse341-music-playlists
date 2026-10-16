@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     message: 'Welcome to the Music Playlists API',
     documentation: '/api-docs',
     endpoints: {

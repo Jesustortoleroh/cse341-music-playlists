@@ -37,11 +37,10 @@ const createPlaylist = async (req, res) => {
 // PUT update playlist
 const updatePlaylist = async (req, res) => {
   try {
-    const updatedPlaylist = await Playlist.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    );
+    const updatedPlaylist = await Playlist.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
     if (!updatedPlaylist) {
       return res.status(404).json({ message: 'Playlist not found' });
     }
@@ -64,4 +63,10 @@ const deletePlaylist = async (req, res) => {
   }
 };
 
-module.exports = { getAllPlaylists, getPlaylistById, createPlaylist, updatePlaylist, deletePlaylist};
+module.exports = {
+  getAllPlaylists,
+  getPlaylistById,
+  createPlaylist,
+  updatePlaylist,
+  deletePlaylist
+};

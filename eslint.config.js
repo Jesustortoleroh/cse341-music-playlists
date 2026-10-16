@@ -15,9 +15,9 @@ module.exports = [
     rules: {
       'no-unused-vars': 'warn',
       'no-console': 'off',
-      'indent': ['error', 2],
-      'quotes': ['error', 'single'],
-      'semi': ['error', 'always']
+      indent: ['error', 2],
+      quotes: ['error', 'single'],
+      semi: ['error', 'always']
     }
   },
   {

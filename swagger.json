@@ -1,108 +1,70 @@
 {
-  "swagger": "2.0",
-  "info": {
-    "title": "Music Playlists API",
-    "description": "API for managing music playlists - CSE 341 Project",
-    "version": "1.0.0"
-  },
-  "host": "localhost:3000",
-  "basePath": "/",
-  "schemes": [
-    "http",
-    "https"
-  ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
+  "/api/playlists": {
+    "get": {
+      "description": "Get all playlists",
+      "responses": {
+        "200": { "description": "OK" },
+        "500": { "description": "Internal Server Error" }
       }
     },
-    "/{id}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
+    "post": {
+      "description": "Create a new playlist",
+      "responses": {
+        "201": { "description": "Created" },
+        "400": { "description": "Bad Request" }
       }
     }
+  },
+  "/api/playlists/{id}": {
+    "get": {
+      "description": "Get playlist by ID",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": { "description": "OK" },
+        "404": { "description": "Not Found" },
+        "500": { "description": "Internal Server Error" }
+      }
+    },
+    "put": {
+      "description": "Update a playlist",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": { "description": "OK" },
+        "400": { "description": "Bad Request" },
+        "404": { "description": "Not Found" }
+      }
+    },
+    "delete": {
+      "description": "Delete a playlist",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": { "description": "OK" },
+        "404": { "description": "Not Found" },
+        "500": { "description": "Internal Server Error" }
+      }
+    }
+  }
   }
 }

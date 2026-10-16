@@ -1,0 +1,62 @@
+### Localhost - Get all playlists
+GET http://localhost:3000/api/playlists
+
+### Localhost - Get playlist by ID
+GET http://localhost:3000/api/playlists/REPLACE_WITH_ID
+
+### Localhost - Create playlist
+POST http://localhost:3000/api/playlists
+Content-Type: application/json
+
+{
+  "name": "My New Playlist",
+  "description": "Testing the API",
+  "creator": "Jesus Tortolero",
+  "genre": "jazz",
+  "songs": ["Take Five", "So What"],
+  "isPublic": true,
+  "coverImage": "https://picsum.photos/400/400?random=10"
+}
+
+### Localhost - Update playlist
+PUT http://localhost:3000/api/playlists/REPLACE_WITH_ID
+Content-Type: application/json
+
+{
+  "name": "Updated Playlist Name"
+}
+
+### Localhost - Delete playlist
+DELETE http://localhost:3000/api/playlists/REPLACE_WITH_ID
+
+### ============================================
+### Render - Get all playlists
+GET https://cse341-music-playlists.onrender.com/api/playlists
+
+### Render - Get playlist by ID
+GET https://cse341-music-playlists.onrender.com/api/playlists/REPLACE_WITH_ID
+
+### Render - Create playlist
+POST https://cse341-music-playlists.onrender.com/api/playlists
+Content-Type: application/json
+
+{
+  "name": "My New Playlist",
+  "description": "Testing the API",
+  "creator": "Jesus Tortolero",
+  "genre": "jazz",
+  "songs": ["Take Five", "So What"],
+  "isPublic": true,
+  "coverImage": "https://picsum.photos/400/400?random=10"
+}
+
+### Render - Update playlist
+PUT https://cse341-music-playlists.onrender.com/api/playlists/REPLACE_WITH_ID
+Content-Type: application/json
+
+{
+  "name": "Updated Playlist Name"
+}
+
+### Render - Delete playlist
+DELETE https://cse341-music-playlists.onrender.com/api/playlists/REPLACE_WITH_ID

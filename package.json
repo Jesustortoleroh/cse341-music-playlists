@@ -8,7 +8,12 @@
     "dev": "nodemon server.js",
     "swagger": "node swagger.js"
   },
-  "keywords": ["music", "playlists", "api", "cse341"],
+  "keywords": [
+    "music",
+    "playlists",
+    "api",
+    "cse341"
+  ],
   "author": "Jesus Tortolero",
   "type": "commonjs",
   "dependencies": {
@@ -20,6 +25,10 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.9.10"
   }
 }

@@ -18,13 +18,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.json({ 
+  res.json({ 
     message: 'Welcome to the Music Playlists API',
     documentation: '/api-docs',
     endpoints: {
       playlists: '/api/playlists'
     }
- });
+  });
 });
 
 // Routes
@@ -35,6 +35,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    console.log(`Documentation at http://localhost:${PORT}/api-docs`);
+  console.log(`Server is running on port ${PORT}`);
+  console.log(`Documentation at http://localhost:${PORT}/api-docs`);
 });

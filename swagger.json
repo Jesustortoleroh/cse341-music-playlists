@@ -5,13 +5,16 @@
     "description": "API for managing music playlists - CSE 341 Project",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-music-playlists.onrender.com",
   "basePath": "/",
-  "schemes": ["http", "https"],
+  "schemes": [
+    "http",
+    "https"
+  ],
   "paths": {
-    "/api/playlists": {
+    "/": {
       "get": {
-        "description": "Get all playlists",
+        "description": "",
         "responses": {
           "200": {
             "description": "OK"
@@ -22,7 +25,7 @@
         }
       },
       "post": {
-        "description": "Create a new playlist",
+        "description": "",
         "responses": {
           "201": {
             "description": "Created"
@@ -33,9 +36,9 @@
         }
       }
     },
-    "/api/playlists/{id}": {
+    "/{id}": {
       "get": {
-        "description": "Get playlist by ID",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -57,7 +60,7 @@
         }
       },
       "put": {
-        "description": "Update a playlist",
+        "description": "",
         "parameters": [
           {
             "name": "id",
@@ -79,7 +82,7 @@
         }
       },
       "delete": {
-        "description": "Delete a playlist",
+        "description": "",
         "parameters": [
           {
             "name": "id",

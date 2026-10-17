@@ -6,7 +6,7 @@ const doc = {
     description: 'API for managing music playlists - CSE 341 Project',
     version: '1.0.0'
   },
-  host: 'localhost:3000',
+  host: 'cse341-music-playlists.onrender.com',
   schemes: ['http', 'https']
 };
 

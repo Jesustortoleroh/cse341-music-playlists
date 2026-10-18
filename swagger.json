@@ -10,16 +10,12 @@
   "schemes": [
     "https"
   ],
-  "tags": [
-    {
-      "name": "Playlists",
-      "description": "Operations related to music playlists"
-    }
-  ],
   "paths": {
     "/api/playlists": {
       "get": {
-        "tags": ["Playlists"],
+        "tags": [
+          "Playlists"
+        ],
         "summary": "Get all playlists",
         "description": "Returns a list of all playlists in the database.",
         "responses": {
@@ -27,102 +23,141 @@
             "description": "OK",
             "schema": {
               "type": "array",
-              "items": { "$ref": "#/definitions/Playlist" }
+              "items": {
+                "$ref": "#/definitions/Playlist"
+              }
             }
           },
-          "500": { "description": "Internal Server Error" }
+          "500": {
+            "description": "Internal Server Error"
+          }
         }
       },
       "post": {
-        "tags": ["Playlists"],
+        "tags": [
+          "Playlists"
+        ],
         "summary": "Create a new playlist",
         "description": "Adds a new playlist to the database.",
         "parameters": [
           {
-            "in": "body",
             "name": "body",
+            "in": "body",
             "description": "Playlist object to be created",
             "required": true,
-            "schema": { "$ref": "#/definitions/PlaylistInput" }
+            "schema": {
+              "$ref": "#/definitions/PlaylistInput"
+            }
           }
         ],
         "responses": {
-          "201": { 
+          "201": {
             "description": "Created",
-            "schema": { "$ref": "#/definitions/Playlist" }
+            "schema": {
+              "$ref": "#/definitions/Playlist"
+            }
           },
-          "400": { "description": "Bad Request - Validation Error" }
+          "400": {
+            "description": "Bad Request - Validation Error"
+          }
         }
       }
     },
     "/api/playlists/{id}": {
       "get": {
-        "tags": ["Playlists"],
+        "tags": [
+          "Playlists"
+        ],
         "summary": "Get playlist by ID",
+        "description": "Retrieves a single playlist based on its MongoDB ObjectId.",
         "parameters": [
-          { 
-            "name": "id", 
-            "in": "path", 
-            "required": true, 
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
             "type": "string",
             "description": "The MongoDB ObjectId of the playlist"
           }
         ],
         "responses": {
-          "200": { 
+          "200": {
             "description": "OK",
-            "schema": { "$ref": "#/definitions/Playlist" }
+            "schema": {
+              "$ref": "#/definitions/Playlist"
+            }
           },
-          "400": { "description": "Invalid ID format" },
-          "404": { "description": "Not Found" },
-          "500": { "description": "Internal Server Error" }
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
         }
       },
       "put": {
-        "tags": ["Playlists"],
+        "tags": [
+          "Playlists"
+        ],
         "summary": "Update a playlist",
+        "description": "Updates the specified fields of an existing playlist.",
         "parameters": [
-          { 
-            "name": "id", 
-            "in": "path", 
-            "required": true, 
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
             "type": "string",
             "description": "The MongoDB ObjectId of the playlist"
           },
           {
-            "in": "body",
             "name": "body",
-            "description": "Fields to update (you can send just one)",
+            "in": "body",
+            "description": "Fields to update",
             "required": true,
-            "schema": { "$ref": "#/definitions/PlaylistInput" }
+            "schema": {
+              "$ref": "#/definitions/PlaylistInput"
+            }
           }
         ],
         "responses": {
-          "200": { 
+          "200": {
             "description": "OK",
-            "schema": { "$ref": "#/definitions/Playlist" }
+            "schema": {
+              "$ref": "#/definitions/Playlist"
+            }
           },
-          "400": { "description": "Bad Request" },
-          "404": { "description": "Not Found" }
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
         }
       },
       "delete": {
-        "tags": ["Playlists"],
+        "tags": [
+          "Playlists"
+        ],
         "summary": "Delete a playlist",
+        "description": "Deletes a playlist from the database.",
         "parameters": [
-          { 
-            "name": "id", 
-            "in": "path", 
-            "required": true, 
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
             "type": "string",
             "description": "The MongoDB ObjectId of the playlist"
           }
         ],
         "responses": {
-          "200": { "description": "OK - Deleted successfully" },
-          "400": { "description": "Invalid ID format" },
-          "404": { "description": "Not Found" },
-          "500": { "description": "Internal Server Error" }
+          "200": {
+            "description": "OK - Deleted successfully"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
         }
       }
     }
@@ -131,36 +166,91 @@
     "PlaylistInput": {
       "type": "object",
       "properties": {
-        "name": { "type": "string", "example": "My Awesome Playlist" },
-        "description": { "type": "string", "example": "A collection of my favorite songs" },
-        "creator": { "type": "string", "example": "Jesus Tortolero" },
-        "genre": { "type": "string", "example": "jazz" },
-        "songs": { 
-          "type": "array", 
-          "items": { "type": "string" },
-          "example": ["Take Five - Dave Brubeck", "So What - Miles Davis"]
+        "name": {
+          "type": "string",
+          "example": "My Awesome Playlist"
         },
-        "isPublic": { "type": "boolean", "example": true },
-        "coverImage": { "type": "string", "example": "https://picsum.photos/400/400?random=10" }
+        "description": {
+          "type": "string",
+          "example": "A collection of my favorite songs"
+        },
+        "creator": {
+          "type": "string",
+          "example": "Jesus Tortolero"
+        },
+        "genre": {
+          "type": "string",
+          "example": "jazz"
+        },
+        "songs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "Take Five - Dave Brubeck",
+            "So What - Miles Davis"
+          ]
+        },
+        "isPublic": {
+          "type": "boolean",
+          "example": true
+        },
+        "coverImage": {
+          "type": "string",
+          "example": "https://picsum.photos/400/400?random=10"
+        }
       }
     },
     "Playlist": {
       "type": "object",
       "properties": {
-        "_id": { "type": "string", "example": "66abc123def456..." },
-        "name": { "type": "string", "example": "My Awesome Playlist" },
-        "description": { "type": "string", "example": "A collection of my favorite songs" },
-        "creator": { "type": "string", "example": "Jesus Tortolero" },
-        "genre": { "type": "string", "example": "jazz" },
-        "songs": { 
-          "type": "array", 
-          "items": { "type": "string" },
-          "example": ["Take Five - Dave Brubeck", "So What - Miles Davis"]
+        "_id": {
+          "type": "string",
+          "example": "66abc123def4567890abcdef"
         },
-        "isPublic": { "type": "boolean", "example": true },
-        "coverImage": { "type": "string", "example": "https://picsum.photos/400/400?random=10" },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "updatedAt": { "type": "string", "format": "date-time" }
+        "name": {
+          "type": "string",
+          "example": "My Awesome Playlist"
+        },
+        "description": {
+          "type": "string",
+          "example": "A collection of my favorite songs"
+        },
+        "creator": {
+          "type": "string",
+          "example": "Jesus Tortolero"
+        },
+        "genre": {
+          "type": "string",
+          "example": "jazz"
+        },
+        "songs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "Take Five - Dave Brubeck",
+            "So What - Miles Davis"
+          ]
+        },
+        "isPublic": {
+          "type": "boolean",
+          "example": true
+        },
+        "coverImage": {
+          "type": "string",
+          "example": "https://picsum.photos/400/400?random=10"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2026-10-17T00:00:00.000Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2026-10-17T00:00:00.000Z"
+        }
       }
     }
   }

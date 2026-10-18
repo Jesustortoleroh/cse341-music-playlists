@@ -10,56 +10,157 @@
   "schemes": [
     "https"
   ],
+  "tags": [
+    {
+      "name": "Playlists",
+      "description": "Operations related to music playlists"
+    }
+  ],
   "paths": {
     "/api/playlists": {
       "get": {
-        "description": "Get all playlists",
+        "tags": ["Playlists"],
+        "summary": "Get all playlists",
+        "description": "Returns a list of all playlists in the database.",
         "responses": {
-          "200": { "description": "OK" },
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Playlist" }
+            }
+          },
           "500": { "description": "Internal Server Error" }
         }
       },
       "post": {
-        "description": "Create a new playlist",
+        "tags": ["Playlists"],
+        "summary": "Create a new playlist",
+        "description": "Adds a new playlist to the database.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Playlist object to be created",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PlaylistInput" }
+          }
+        ],
         "responses": {
-          "201": { "description": "Created" },
-          "400": { "description": "Bad Request" }
+          "201": { 
+            "description": "Created",
+            "schema": { "$ref": "#/definitions/Playlist" }
+          },
+          "400": { "description": "Bad Request - Validation Error" }
         }
       }
     },
     "/api/playlists/{id}": {
       "get": {
-        "description": "Get playlist by ID",
+        "tags": ["Playlists"],
+        "summary": "Get playlist by ID",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "type": "string" }
+          { 
+            "name": "id", 
+            "in": "path", 
+            "required": true, 
+            "type": "string",
+            "description": "The MongoDB ObjectId of the playlist"
+          }
         ],
         "responses": {
-          "200": { "description": "OK" },
+          "200": { 
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Playlist" }
+          },
+          "400": { "description": "Invalid ID format" },
           "404": { "description": "Not Found" },
           "500": { "description": "Internal Server Error" }
         }
       },
       "put": {
-        "description": "Update a playlist",
+        "tags": ["Playlists"],
+        "summary": "Update a playlist",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "type": "string" }
+          { 
+            "name": "id", 
+            "in": "path", 
+            "required": true, 
+            "type": "string",
+            "description": "The MongoDB ObjectId of the playlist"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Fields to update (you can send just one)",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PlaylistInput" }
+          }
         ],
         "responses": {
-          "200": { "description": "OK" },
+          "200": { 
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Playlist" }
+          },
           "400": { "description": "Bad Request" },
           "404": { "description": "Not Found" }
         }
       },
       "delete": {
-        "description": "Delete a playlist",
+        "tags": ["Playlists"],
+        "summary": "Delete a playlist",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "type": "string" }
+          { 
+            "name": "id", 
+            "in": "path", 
+            "required": true, 
+            "type": "string",
+            "description": "The MongoDB ObjectId of the playlist"
+          }
         ],
         "responses": {
-          "200": { "description": "OK" },
+          "200": { "description": "OK - Deleted successfully" },
+          "400": { "description": "Invalid ID format" },
           "404": { "description": "Not Found" },
           "500": { "description": "Internal Server Error" }
         }
+      }
+    }
+  },
+  "definitions": {
+    "PlaylistInput": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "example": "My Awesome Playlist" },
+        "description": { "type": "string", "example": "A collection of my favorite songs" },
+        "creator": { "type": "string", "example": "Jesus Tortolero" },
+        "genre": { "type": "string", "example": "jazz" },
+        "songs": { 
+          "type": "array", 
+          "items": { "type": "string" },
+          "example": ["Take Five - Dave Brubeck", "So What - Miles Davis"]
+        },
+        "isPublic": { "type": "boolean", "example": true },
+        "coverImage": { "type": "string", "example": "https://picsum.photos/400/400?random=10" }
+      }
+    },
+    "Playlist": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string", "example": "66abc123def456..." },
+        "name": { "type": "string", "example": "My Awesome Playlist" },
+        "description": { "type": "string", "example": "A collection of my favorite songs" },
+        "creator": { "type": "string", "example": "Jesus Tortolero" },
+        "genre": { "type": "string", "example": "jazz" },
+        "songs": { 
+          "type": "array", 
+          "items": { "type": "string" },
+          "example": ["Take Five - Dave Brubeck", "So What - Miles Davis"]
+        },
+        "isPublic": { "type": "boolean", "example": true },
+        "coverImage": { "type": "string", "example": "https://picsum.photos/400/400?random=10" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
       }
     }
   }

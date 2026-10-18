@@ -48,6 +48,7 @@ GET https://cse341-music-playlists.onrender.com/api/playlists/6ad1a24ba6238671da
 ### Render - Create playlist
 POST https://cse341-music-playlists.onrender.com/api/playlists
 Content-Type: application/json
+
 {
   "name": "Folk Essentials",
   "description": "Acoustic stories and timeless melodies — my favorite folk tracks",

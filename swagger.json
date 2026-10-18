@@ -7,15 +7,11 @@
   },
   "host": "cse341-music-playlists.onrender.com",
   "basePath": "/",
-  "schemes": [
-    "https"
-  ],
+  "schemes": ["https"],
   "paths": {
     "/api/playlists": {
       "get": {
-        "tags": [
-          "Playlists"
-        ],
+        "tags": ["Playlists"],
         "summary": "Get all playlists",
         "description": "Returns a list of all playlists in the database.",
         "responses": {
@@ -34,9 +30,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Playlists"
-        ],
+        "tags": ["Playlists"],
         "summary": "Create a new playlist",
         "description": "Adds a new playlist to the database.",
         "parameters": [
@@ -65,9 +59,7 @@
     },
     "/api/playlists/{id}": {
       "get": {
-        "tags": [
-          "Playlists"
-        ],
+        "tags": ["Playlists"],
         "summary": "Get playlist by ID",
         "description": "Retrieves a single playlist based on its MongoDB ObjectId.",
         "parameters": [
@@ -95,9 +87,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Playlists"
-        ],
+        "tags": ["Playlists"],
         "summary": "Update a playlist",
         "description": "Updates the specified fields of an existing playlist.",
         "parameters": [
@@ -134,9 +124,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Playlists"
-        ],
+        "tags": ["Playlists"],
         "summary": "Delete a playlist",
         "description": "Deletes a playlist from the database.",
         "parameters": [
@@ -187,10 +175,7 @@
           "items": {
             "type": "string"
           },
-          "example": [
-            "Take Five - Dave Brubeck",
-            "So What - Miles Davis"
-          ]
+          "example": ["Take Five - Dave Brubeck", "So What - Miles Davis"]
         },
         "isPublic": {
           "type": "boolean",
@@ -230,10 +215,7 @@
           "items": {
             "type": "string"
           },
-          "example": [
-            "Take Five - Dave Brubeck",
-            "So What - Miles Davis"
-          ]
+          "example": ["Take Five - Dave Brubeck", "So What - Miles Davis"]
         },
         "isPublic": {
           "type": "boolean",

@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {getAllPlaylists, getPlaylistById, createPlaylist, updatePlaylist, deletePlaylist } = require('../controllers/playlistController');
+const {
+  getAllPlaylists,
+  getPlaylistById,
+  createPlaylist,
+  updatePlaylist,
+  deletePlaylist
+} = require('../controllers/playlistController');
 
 // GET all playlists
 router.get('/', (req, res, next) => {

@@ -7,7 +7,7 @@ const doc = {
     version: '1.0.0'
   },
   host: 'cse341-music-playlists.onrender.com',
-  schemes: ['http', 'https']
+  schemes: ['https']
 };
 
 const outputFile = './swagger.json';

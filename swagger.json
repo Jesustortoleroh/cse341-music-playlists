@@ -8,7 +8,6 @@
   "host": "cse341-music-playlists.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
     "https"
   ],
   "paths": {

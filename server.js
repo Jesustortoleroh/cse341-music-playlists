@@ -20,6 +20,9 @@ const PORT = process.env.PORT || 3000;
 // Connect to MongoDB
 connectDB();
 
+// Trust the proxy (needed for Render) so the rate limiter gets the real client IP
+app.set('trust proxy', 1); 
+
 // Security: Helmet (Protects HTTP headers)
 // Note: contentSecurityPolicy is disabled so Swagger UI can load properly
 app.use(helmet({ contentSecurityPolicy: false })); 

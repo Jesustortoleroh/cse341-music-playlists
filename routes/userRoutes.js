@@ -5,8 +5,8 @@ const { validateUser } = require('../middleware/validate');
 
 router.get('/', getAllUsers);
 router.get('/:id', getUserById);
-router.post('/', validateUser, createUser);
-router.put('/:id', validateUser, updateUser);
+router.post('/', validateUser, createUser);   
+router.put('/:id', validateUser, updateUser); 
 router.delete('/:id', deleteUser);
 
 module.exports = router;

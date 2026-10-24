@@ -1,71 +1,67 @@
 const User = require('../models/User');
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find().select('-password');
     res.status(200).json({ success: true, count: users.length, data: users });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    next(error); //  Delegate error to global handler
   }
 };
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
-    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    if (!user) {
+      const err = new Error('User not found');
+      err.statusCode = 404; // Create 404 error to pass to handler
+      return next(err);
+    }
     res.status(200).json({ success: true, data: user });
   } catch (error) {
-    // Handle CastError (Invalid ObjectId)
-    if (error.name === 'CastError') {
-      return res.status(400).json({ success: false, message: 'Invalid ID format.' });
-    }
-    res.status(500).json({ success: false, message: error.message });
+    next(error); // Removed local CastError handling, let global handler do it
   }
 };
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
     newUser.password = undefined; 
     res.status(201).json({ success: true, message: 'User created', data: newUser });
   } catch (error) {
-    // Handle ValidationError (Missing fields)
-    if (error.name === 'ValidationError') {
-      const messages = Object.values(error.errors).map(val => val.message);
-      return res.status(400).json({ success: false, message: messages.join(', ') });
-    }
-    // Handle Duplicate Key (Email already exists)
-    if (error.code === 11000) {
-      return res.status(400).json({ success: false, message: 'Email already exists' });
-    }
-    res.status(500).json({ success: false, message: error.message });
+    next(error); // Removed local ValidationError and 11000 handling
   }
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, { 
       new: true, 
       runValidators: true 
     }).select('-password');
-    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    
+    if (!user) {
+      const err = new Error('User not found');
+      err.statusCode = 404;
+      return next(err);
+    }
     res.status(200).json({ success: true, message: 'User updated', data: user });
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      const messages = Object.values(error.errors).map(val => val.message);
-      return res.status(400).json({ success: false, message: messages.join(', ') });
-    }
-    res.status(500).json({ success: false, message: error.message });
+    next(error); //  Delegate to global handler
   }
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    if (!user) {
+      const err = new Error('User not found');
+      err.statusCode = 404;
+      return next(err);
+    }
     res.status(200).json({ success: true, message: 'User deleted' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    next(error); // Delegate to global handler
   }
 };
 

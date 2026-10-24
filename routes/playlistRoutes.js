@@ -8,6 +8,9 @@ const {
   deletePlaylist
 } = require('../controllers/playlistController');
 
+// Import validation rules and middleware
+const { playlistValidationRules, validate } = require('../middleware/validate');
+
 // GET all playlists
 router.get('/', (req, res, next) => {
   // #swagger.tags = ['Playlists']
@@ -22,7 +25,8 @@ router.get('/', (req, res, next) => {
 });
 
 // POST create new playlist
-router.post('/', (req, res, next) => {
+// Changed: Added playlistValidationRules() and validate
+router.post('/', playlistValidationRules(), validate, (req, res, next) => {
   // #swagger.tags = ['Playlists']
   // #swagger.summary = 'Create a new playlist'
   // #swagger.description = 'Adds a new playlist to the database.'
@@ -59,7 +63,8 @@ router.get('/:id', (req, res, next) => {
 });
 
 // PUT update playlist
-router.put('/:id', (req, res, next) => {
+// Changed: Added playlistValidationRules() and validate
+router.put('/:id', playlistValidationRules(), validate, (req, res, next) => {
   // #swagger.tags = ['Playlists']
   // #swagger.summary = 'Update a playlist'
   /* #swagger.parameters['id'] = { 

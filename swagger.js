@@ -3,11 +3,13 @@ const swaggerAutogen = require('swagger-autogen')();
 const doc = {
   info: {
     title: 'Music Playlists API',
-    description: 'API for managing music playlists - CSE 341 Project',
+    description: 'API for managing music playlists and users - CSE 341 Project',
     version: '1.0.0'
   },
   host: 'cse341-music-playlists.onrender.com',
   schemes: ['https'],
+  // New: Tell swagger where the routes are mounted so it builds the paths correctly
+  basePath: '/',
   definitions: {
     PlaylistInput: {
       name: 'My Awesome Playlist',
@@ -19,7 +21,7 @@ const doc = {
       coverImage: 'https://picsum.photos/400/400?random=10'
     },
     Playlist: {
-      _id: '66abc123def456...',
+      _id: '66abc123def4567890abcdef',
       name: 'My Awesome Playlist',
       description: 'A collection of my favorite songs',
       creator: 'Jesus Tortolero',
@@ -29,11 +31,27 @@ const doc = {
       coverImage: 'https://picsum.photos/400/400?random=10',
       createdAt: '2026-10-17T00:00:00.000Z',
       updatedAt: '2026-10-17T00:00:00.000Z'
+    },
+    UserInput: {
+      name: 'Jesus Tortolero',
+      email: 'jesus@example.com',
+      password: 'securePassword123',
+      role: 'user'
+    },
+    User: {
+      _id: '66abc123def4567890abcdef',
+      name: 'Jesus Tortolero',
+      email: 'jesus@example.com',
+      role: 'user',
+      createdAt: '2026-10-17T00:00:00.000Z',
+      updatedAt: '2026-10-17T00:00:00.000Z'
     }
   }
 };
 
 const outputFile = './swagger.json';
-const endpointsFiles = ['./routes/playlistRoutes.js'];
+const endpointsFiles = ['./routes/playlistRoutes.js', './routes/userRoutes.js'];
 
-swaggerAutogen(outputFile, endpointsFiles, doc);
+swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
+  require('./server.js'); // Optionally start the server after generating
+});

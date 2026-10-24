@@ -26,7 +26,7 @@ const getUserById = async (req, res, next) => {
 const createUser = async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
-    newUser.password = undefined; 
+    newUser.password = undefined;
     res.status(201).json({ success: true, message: 'User created', data: newUser });
   } catch (error) {
     next(error); // Removed local ValidationError and 11000 handling
@@ -35,11 +35,11 @@ const createUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { 
-      new: true, 
-      runValidators: true 
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
     }).select('-password');
-    
+
     if (!user) {
       const err = new Error('User not found');
       err.statusCode = 404;

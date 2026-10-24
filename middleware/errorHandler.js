@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
   // Handle custom validation errors coming from express-validator
   if (err.statusCode === 400 && err.errors) {
@@ -15,7 +16,7 @@ const errorHandler = (err, req, res, next) => {
 
   // Handle Mongoose validation errors
   if (err.name === 'ValidationError') {
-    const messages = Object.values(err.errors).map(val => val.message);
+    const messages = Object.values(err.errors).map((val) => val.message);
     return res.status(400).json({ success: false, message: messages.join(', ') });
   }
 

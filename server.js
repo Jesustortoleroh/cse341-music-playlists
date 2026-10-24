@@ -1,18 +1,18 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const helmet = require('helmet'); 
-const rateLimit = require('express-rate-limit'); 
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const connectDB = require('./config/db');
 
 // Import routes
 const playlistRoutes = require('./routes/playlistRoutes');
-const userRoutes = require('./routes/userRoutes'); 
+const userRoutes = require('./routes/userRoutes');
 
 // Import global error handler
-const errorHandler = require('./middleware/errorHandler'); 
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,11 +21,11 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 // Trust the proxy (needed for Render) so the rate limiter gets the real client IP
-app.set('trust proxy', 1); 
+app.set('trust proxy', 1);
 
 // Security: Helmet (Protects HTTP headers)
 // Note: contentSecurityPolicy is disabled so Swagger UI can load properly
-app.use(helmet({ contentSecurityPolicy: false })); 
+app.use(helmet({ contentSecurityPolicy: false }));
 
 // Security: Rate Limiting (Prevents brute-force attacks)
 const limiter = rateLimit({

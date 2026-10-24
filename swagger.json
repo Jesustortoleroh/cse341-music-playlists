@@ -14,7 +14,10 @@
         "tags": ["Playlists"],
         "summary": "Get all playlists",
         "responses": {
-          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/Playlist" } } },
+          "200": {
+            "description": "OK",
+            "schema": { "type": "array", "items": { "$ref": "#/definitions/Playlist" } }
+          },
           "500": { "description": "Internal Server Error" }
         }
       },
@@ -22,7 +25,12 @@
         "tags": ["Playlists"],
         "summary": "Create a new playlist",
         "parameters": [
-          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/PlaylistInput" } }
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PlaylistInput" }
+          }
         ],
         "responses": {
           "201": { "description": "Created", "schema": { "$ref": "#/definitions/Playlist" } },
@@ -46,7 +54,12 @@
         "summary": "Update a playlist",
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" },
-          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/PlaylistInput" } }
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PlaylistInput" }
+          }
         ],
         "responses": {
           "200": { "description": "OK", "schema": { "$ref": "#/definitions/Playlist" } },
@@ -69,7 +82,10 @@
         "tags": ["Users"],
         "summary": "Get all users",
         "responses": {
-          "200": { "description": "OK", "schema": { "type": "array", "items": { "$ref": "#/definitions/User" } } },
+          "200": {
+            "description": "OK",
+            "schema": { "type": "array", "items": { "$ref": "#/definitions/User" } }
+          },
           "500": { "description": "Internal Server Error" }
         }
       },
@@ -77,7 +93,12 @@
         "tags": ["Users"],
         "summary": "Create a new user",
         "parameters": [
-          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/UserInput" } }
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UserInput" }
+          }
         ],
         "responses": {
           "201": { "description": "Created", "schema": { "$ref": "#/definitions/User" } },
@@ -101,7 +122,12 @@
         "summary": "Update a user",
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" },
-          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/definitions/UserInput" } }
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UserInput" }
+          }
         ],
         "responses": {
           "200": { "description": "OK", "schema": { "$ref": "#/definitions/User" } },
@@ -128,7 +154,11 @@
         "description": { "type": "string", "example": "A collection of my favorite songs" },
         "creator": { "type": "string", "example": "Jesus Tortolero" },
         "genre": { "type": "string", "example": "jazz" },
-        "songs": { "type": "array", "items": { "type": "string" }, "example": ["Take Five - Dave Brubeck"] },
+        "songs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "example": ["Take Five - Dave Brubeck"]
+        },
         "isPublic": { "type": "boolean", "example": true },
         "coverImage": { "type": "string", "example": "https://picsum.photos/400/400?random=10" }
       }
@@ -141,7 +171,11 @@
         "description": { "type": "string", "example": "A collection of my favorite songs" },
         "creator": { "type": "string", "example": "Jesus Tortolero" },
         "genre": { "type": "string", "example": "jazz" },
-        "songs": { "type": "array", "items": { "type": "string" }, "example": ["Take Five - Dave Brubeck"] },
+        "songs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "example": ["Take Five - Dave Brubeck"]
+        },
         "isPublic": { "type": "boolean", "example": true },
         "coverImage": { "type": "string", "example": "https://picsum.photos/400/400?random=10" },
         "createdAt": { "type": "string", "example": "2026-10-17T00:00:00.000Z" },

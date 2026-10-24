@@ -1,6 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, getUserById, createUser, updateUser, deleteUser } = require('../controllers/userController');
+const {
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
+} = require('../controllers/userController');
 const { userValidationRules, validate } = require('../middleware/validate');
 
 // GET all users

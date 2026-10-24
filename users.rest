@@ -21,7 +21,7 @@ Content-Type: application/json
 {
   "name": "Jesus Tortolero",
   "email": "jesus.test@example.com",
-  "password": "supersecretpassword",
+  "password": "password123",
   "role": "user"
 }
 
@@ -31,6 +31,7 @@ Content-Type: application/json
 
 {
   "name": "John Doe",
+  "email": "john.doe@example.com",
   "password": "123"
 }
 
@@ -41,7 +42,7 @@ Content-Type: application/json
 {
   "name": "Jane Doe",
   "email": "not-an-email",
-  "password": "securepassword123"
+  "password": "password123"
 }
 
 ### 8. Create user (Error 409 Conflict) - Duplicate email
@@ -52,7 +53,7 @@ Content-Type: application/json
 {
   "name": "Another Jesus",
   "email": "jesus.test@example.com",
-  "password": "anotherpassword123",
+  "password": "password123",
   "role": "admin"
 }
 

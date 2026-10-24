@@ -1,0 +1,80 @@
+### ============================================
+### RENDER - USERS 
+### ============================================
+
+### 1. Get all users (Success 200)
+GET https://cse341-music-playlists.onrender.com/api/users
+
+### 2. Get user by ID (Success 200) - Replace ID with a real one from your DB
+GET https://cse341-music-playlists.onrender.com/api/users/66abc123def4567890abcdef
+
+### 3. Get user by ID (Error 400 CastError) - Invalid ID format
+GET https://cse341-music-playlists.onrender.com/api/users/123
+
+### 4. Get user by ID (Error 404 Not Found) - Valid format but doesn't exist
+GET https://cse341-music-playlists.onrender.com/api/users/000000000000000000000000
+
+### 5. Create user (Success 201)
+POST https://cse341-music-playlists.onrender.com/api/users
+Content-Type: application/json
+
+{
+  "name": "Jesus Tortolero",
+  "email": "jesus.test@example.com",
+  "password": "supersecretpassword",
+  "role": "user"
+}
+
+### 6. Create user (Error 400 Validation) - Missing email and short password
+POST https://cse341-music-playlists.onrender.com/api/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "password": "123"
+}
+
+### 7. Create user (Error 400 Validation) - Invalid email format
+POST https://cse341-music-playlists.onrender.com/api/users
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "email": "not-an-email",
+  "password": "securepassword123"
+}
+
+### 8. Create user (Error 409 Conflict) - Duplicate email
+# NOTE: Run Request 5 first. Then run this one with the same email.
+POST https://cse341-music-playlists.onrender.com/api/users
+Content-Type: application/json
+
+{
+  "name": "Another Jesus",
+  "email": "jesus.test@example.com",
+  "password": "anotherpassword123",
+  "role": "admin"
+}
+
+### 9. Update user (Success 200) - Replace ID with a real one
+PUT https://cse341-music-playlists.onrender.com/api/users/66abc123def4567890abcdef
+Content-Type: application/json
+
+{
+  "name": "Jesus Tortolero Updated",
+  "role": "admin"
+}
+
+### 10. Update user (Error 404) - Valid format but doesn't exist
+PUT https://cse341-music-playlists.onrender.com/api/users/000000000000000000000000
+Content-Type: application/json
+
+{
+  "name": "This will fail"
+}
+
+### 11. Delete user (Success 200) - Replace ID with a real one
+DELETE https://cse341-music-playlists.onrender.com/api/users/66abc123def4567890abcdef
+
+### 12. Delete user (Error 404) - Valid format but doesn't exist
+DELETE https://cse341-music-playlists.onrender.com/api/users/000000000000000000000000

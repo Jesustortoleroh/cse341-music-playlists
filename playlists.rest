@@ -1,51 +1,18 @@
-### Localhost - Get all playlists
-GET http://localhost:3000/api/playlists
+### RENDER - PLAYLISTS
 
-### Localhost - Get playlist by ID
-GET http://localhost:3000/api/playlists/6ad1a1a3a6238671da0fb678
-
-### Localhost - Create playlist
-POST http://localhost:3000/api/playlists
-Content-Type: application/json
-{
-  "name": "Folk Essentials",
-  "description": "Acoustic stories and timeless melodies — my favorite folk tracks",
-  "creator": "Jesus Tortolero",
-  "genre": "folk",
-  "songs": [
-    "Blowin' in the Wind - Bob Dylan",
-    "The Sound of Silence - Simon & Garfunkel",
-    "Landslide - Fleetwood Mac",
-    "Fast Car - Tracy Chapman",
-    "Vincent - Don McLean",
-    "Hallelujah - Leonard Cohen",
-    "The Boxer - Simon & Garfunkel",
-    "Wild World - Cat Stevens",
-    "Both Sides, Now - Joni Mitchell"
-  ],
-  "isPublic": true,
-  "coverImage": "https://picsum.photos/400/400?random=7"
-}
-
-### Localhost - Update playlist
-PUT http://localhost:3000/api/playlists/6ad1a330a6238671da0fb680
-Content-Type: application/json
-
-{
-  "name": "Reggae Roots & Vibes"
-}
-
-### Localhost - Delete playlist
-DELETE http://localhost:3000/api/playlists/6ad1a330a6238671da0fb680
-
-### ============================================
-### Render - Get all playlists
+### 1. Get all playlists (Success 200)
 GET https://cse341-music-playlists.onrender.com/api/playlists
 
-### Render - Get playlist by ID
+### 2. Get playlist by ID (Success 200) - Replace ID with a real one from your DB
 GET https://cse341-music-playlists.onrender.com/api/playlists/6ad1a24ba6238671da0fb67a
 
-### Render - Create playlist
+### 3. Get playlist by ID (Error 400 CastError) - Invalid ID format
+GET https://cse341-music-playlists.onrender.com/api/playlists/123
+
+### 4. Get playlist by ID (Error 404 Not Found) - Valid format but doesn't exist
+GET https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000
+
+### 5. Create playlist (Success 201)
 POST https://cse341-music-playlists.onrender.com/api/playlists
 Content-Type: application/json
 
@@ -56,19 +23,33 @@ Content-Type: application/json
   "genre": "folk",
   "songs": [
     "Blowin' in the Wind - Bob Dylan",
-    "The Sound of Silence - Simon & Garfunkel",
-    "Landslide - Fleetwood Mac",
-    "Fast Car - Tracy Chapman",
-    "Vincent - Don McLean",
-    "Hallelujah - Leonard Cohen",
-    "The Boxer - Simon & Garfunkel",
-    "Wild World - Cat Stevens",
-    "Both Sides, Now - Joni Mitchell"
+    "The Sound of Silence - Simon & Garfunkel"
   ],
   "isPublic": true,
   "coverImage": "https://picsum.photos/400/400?random=7"
 }
-### Render - Update playlist
+
+### 6. Create playlist (Error 400 Validation) - Missing 'creator' and short 'name'
+POST https://cse341-music-playlists.onrender.com/api/playlists
+Content-Type: application/json
+
+{
+  "name": "Hi",
+  "genre": "folk",
+  "songs": []
+}
+
+### 7. Create playlist (Error 400 Validation) - Invalid genre
+POST https://cse341-music-playlists.onrender.com/api/playlists
+Content-Type: application/json
+
+{
+  "name": "My Playlist",
+  "creator": "Jesus",
+  "genre": "heavy-metal" 
+}
+
+### 8. Update playlist (Success 200) - Replace ID with a real one
 PUT https://cse341-music-playlists.onrender.com/api/playlists/6ad1a330a6238671da0fb680
 Content-Type: application/json
 
@@ -76,5 +57,16 @@ Content-Type: application/json
   "name": "Reggae Roots & Vibes"
 }
 
-### Render - Delete playlist
+### 9. Update playlist (Error 404) - Replace ID with a non-existent one
+PUT https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000
+Content-Type: application/json
+
+{
+  "name": "This will fail"
+}
+
+### 10. Delete playlist (Success 200) - Replace ID with a real one
 DELETE https://cse341-music-playlists.onrender.com/api/playlists/6ad1a330a6238671da0fb680
+
+### 11. Delete playlist (Error 404) - Replace ID with a non-existent one
+DELETE https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000

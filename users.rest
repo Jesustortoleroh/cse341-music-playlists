@@ -1,9 +1,46 @@
 ### ============================================
-### USERS API ( Validation & Errors)
+### LOCALHOST - USERS
 ### ============================================
 
+### 1. Create User (Success 201)
+POST http://localhost:3000/api/users
+Content-Type: application/json
 
-### 1. Create Admin User (Success 201)
+{
+  "name": "Local User",
+  "email": "local@example.com",
+  "password": "localpassword123",
+  "role": "user"
+}
+
+### 2. Get all Users (Success 200)
+GET http://localhost:3000/api/users
+
+### 3. Update User (Success 200) - Replace with local user ID
+PUT http://localhost:3000/api/users/REPLACE_WITH_LOCAL_USER_ID
+Content-Type: application/json
+
+{
+  "name": "Local User Updated"
+}
+
+### 4. Delete User (Success 200) - Replace with local user ID
+DELETE http://localhost:3000/api/users/REPLACE_WITH_LOCAL_USER_ID
+
+### 5. Validation Error (400) - Missing fields
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "name": "No Password"
+}
+
+
+### ============================================
+### RENDER - USERS 
+### ============================================
+
+### 6. Create Admin User (Success 201)
 POST https://cse341-music-playlists.onrender.com/api/users
 Content-Type: application/json
 
@@ -14,7 +51,7 @@ Content-Type: application/json
   "role": "admin"
 }
 
-### 2. Create Normal User (Success 201)
+### 7. Create Normal User (Success 201)
 POST https://cse341-music-playlists.onrender.com/api/users
 Content-Type: application/json
 
@@ -25,73 +62,27 @@ Content-Type: application/json
   "role": "user"
 }
 
-### 3. Create User - Error 400 (Duplicate Email)
-POST https://cse341-music-playlists.onrender.com/api/users
-Content-Type: application/json
-
-{
-  "name": "Clone of Jesus",
-  "email": "jesus.admin@example.com",
-  "password": "AnotherPassword",
-  "role": "user"
-}
-
-### 4. Create User - Error 400 (Validation: Missing fields)
-POST https://cse341-music-playlists.onrender.com/api/users
-Content-Type: application/json
-
-{
-  "name": "Error User"
-}
-
-### 5. Get all Users (Success 200)
+### 8. Get all Users (Success 200)
 GET https://cse341-music-playlists.onrender.com/api/users
 
-
-### ============================================
-### ============================================
-### PLAYLISTS API (For Week 6 PUT & DELETE)
-### ============================================
-### ============================================
-
-### 6. Get all playlists (Success 200)
-GET https://cse341-music-playlists.onrender.com/api/playlists
-
-### 7. Get playlist by ID (Success 200) - Jazz Playlist
-GET https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
-
-### 8. Create playlist (Success 201)
-POST https://cse341-music-playlists.onrender.com/api/playlists
+### 9. Update User (Success 200) - Replace with a real Render user ID
+PUT https://cse341-music-playlists.onrender.com/api/users/REPLACE_WITH_RENDER_USER_ID
 Content-Type: application/json
 
 {
-  "name": "Reggae Vibes",
-  "description": "Positive vibrations for sunny days",
-  "creator": "Jesus Tortolero",
-  "genre": "reggae",
-  "songs": ["No Woman, No Cry", "Three Little Birds"],
-  "isPublic": true,
-  "coverImage": "https://picsum.photos/400/400?random=5"
+  "name": "Miles Davis Updated"
 }
 
-### 9. Update playlist (Success 200) - Updating Jazz Playlist
-PUT https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
+### 10. Delete User (Success 200) - Replace with a real Render user ID
+DELETE https://cse341-music-playlists.onrender.com/api/users/REPLACE_WITH_RENDER_USER_ID
+
+### 11. Validation Error (400) - Missing email and password
+POST https://cse341-music-playlists.onrender.com/api/users
 Content-Type: application/json
 
 {
-  "name": "Jazz for Studying - Masterpiece Edition"
+  "name": "Error Test"
 }
 
-### 10. Update playlist (Error 400 Validation) - Invalid genre
-PUT https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
-Content-Type: application/json
-
-{
-  "genre": "heavy-metal" 
-}
-
-### 11. Delete playlist (Success 200) - Deleting "My Awesome Playlist"
-DELETE https://cse341-music-playlists.onrender.com/api/playlists/6ad6cc95ca7403d6e432f500
-
-### 12. Delete playlist (Error 404) - Non-existent ID
-DELETE https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000
+### 12. Error Handling (400) - Invalid ID format
+GET https://cse341-music-playlists.onrender.com/api/users/123

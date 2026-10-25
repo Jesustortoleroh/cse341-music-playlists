@@ -1,55 +1,73 @@
-### RENDER - PLAYLISTS
+### ============================================
+### LOCALHOST - PLAYLISTS
+### ============================================
 
 ### 1. Get all playlists (Success 200)
-GET https://cse341-music-playlists.onrender.com/api/playlists
+GET http://localhost:3000/api/playlists
 
 ### 2. Get playlist by ID (Success 200) - Jazz Playlist
-GET https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
+GET http://localhost:3000/api/playlists/6ad1a123a6238671da0fb676
 
-### 3. Get playlist by ID (Error 400 CastError) - Invalid ID format
-GET https://cse341-music-playlists.onrender.com/api/playlists/123
-
-### 4. Get playlist by ID (Error 404 Not Found) - Valid format but doesn't exist
-GET https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000
-
-### 5. Create playlist (Success 201)
-POST https://cse341-music-playlists.onrender.com/api/playlists
+### 3. Create playlist (Success 201)
+POST http://localhost:3000/api/playlists
 Content-Type: application/json
 
 {
-  "name": "Folk Essentials",
-  "description": "Acoustic stories and timeless melodies — my favorite folk tracks",
+  "name": "Local Test Playlist",
+  "description": "Testing the API locally",
   "creator": "Jesus Tortolero",
-  "genre": "folk",
-  "songs": [
-    "Blowin' in the Wind - Bob Dylan",
-    "The Sound of Silence - Simon & Garfunkel"
-  ],
+  "genre": "rock",
+  "songs": ["Song 1", "Song 2"],
   "isPublic": true,
-  "coverImage": "https://picsum.photos/400/400?random=7"
+  "coverImage": "https://picsum.photos/400/400?random=10"
 }
 
-### 6. Create playlist (Error 400 Validation) - Missing 'creator' and short 'name'
-POST https://cse341-music-playlists.onrender.com/api/playlists
+### 4. Update playlist (Success 200) - Jazz Playlist
+PUT http://localhost:3000/api/playlists/6ad1a123a6238671da0fb676
+Content-Type: application/json
+
+{
+  "name": "Jazz for Studying - Local Update"
+}
+
+### 5. Delete playlist (Success 200) - "My Awesome Playlist"
+DELETE http://localhost:3000/api/playlists/6ad6cc95ca7403d6e432f500
+
+### 6. Validation Error (400) - Missing creator and short name
+POST http://localhost:3000/api/playlists
 Content-Type: application/json
 
 {
   "name": "Hi",
-  "genre": "folk",
-  "songs": []
+  "genre": "rock"
 }
 
-### 7. Create playlist (Error 400 Validation) - Invalid genre
+
+### ============================================
+### RENDER - PLAYLISTS 
+### ============================================
+
+### 7. Get all playlists (Success 200)
+GET https://cse341-music-playlists.onrender.com/api/playlists
+
+### 8. Get playlist by ID (Success 200) - Jazz Playlist
+GET https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
+
+### 9. Create playlist (Success 201)
 POST https://cse341-music-playlists.onrender.com/api/playlists
 Content-Type: application/json
 
 {
-  "name": "My Playlist",
-  "creator": "Jesus",
-  "genre": "heavy-metal" 
+  "name": "Reggae Vibes",
+  "description": "Positive vibrations",
+  "creator": "Jesus Tortolero",
+  "genre": "reggae",
+  "songs": ["No Woman, No Cry"],
+  "isPublic": true,
+  "coverImage": "https://picsum.photos/400/400?random=5"
 }
 
-### 8. Update playlist (Success 200) - Updating Jazz Playlist
+### 10. Update playlist (Success 200) - Jazz Playlist
 PUT https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
 Content-Type: application/json
 
@@ -57,16 +75,15 @@ Content-Type: application/json
   "name": "Jazz for Studying - Masterpiece Edition"
 }
 
-### 9. Update playlist (Error 404) - Non-existent ID
-PUT https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000
+### 11. Delete playlist (Success 200) - "My Awesome Playlist"
+DELETE https://cse341-music-playlists.onrender.com/api/playlists/6ad6cc95ca7403d6e432f500
+
+### 12. Validation Error (400) - Invalid genre
+POST https://cse341-music-playlists.onrender.com/api/playlists
 Content-Type: application/json
 
 {
-  "name": "This will fail"
+  "name": "My Playlist",
+  "creator": "Jesus",
+  "genre": "heavy-metal"
 }
-
-### 10. Delete playlist (Success 200) - Deleting "My Awesome Playlist"
-DELETE https://cse341-music-playlists.onrender.com/api/playlists/6ad6cc95ca7403d6e432f500
-
-### 11. Delete playlist (Error 404) - Non-existent ID
-DELETE https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000

@@ -25,7 +25,7 @@ app
 const startServer = async () => {
   try {
     await db.mongoose.connect(db.url);
-    
+
     app.listen(port, () => {
       console.log(`DB Connected and server running on port ${port}.`);
       console.log(`Documentation at http://localhost:${port}/api-docs`);

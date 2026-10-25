@@ -7,7 +7,9 @@ const {
   updateUser,
   deleteUser
 } = require('../controllers/userController');
-const { validateUser } = require('../middleware/validate');
+
+// Import express-validator rules
+const { userValidationRules, validate } = require('../middleware/validate');
 
 // GET all users
 router.get('/', (req, res, next) => {
@@ -23,7 +25,8 @@ router.get('/', (req, res, next) => {
 });
 
 // POST create new user
-router.post('/', validateUser, (req, res, next) => {
+// Pass the validation rules array and the validate middleware
+router.post('/', userValidationRules, validate, (req, res, next) => {
   // #swagger.tags = ['Users']
   // #swagger.summary = 'Create a new user'
   // #swagger.description = 'Adds a new user to the database.'
@@ -61,7 +64,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // PUT update user
-router.put('/:id', validateUser, (req, res, next) => {
+router.put('/:id', userValidationRules, validate, (req, res, next) => {
   // #swagger.tags = ['Users']
   // #swagger.summary = 'Update a user'
   /* #swagger.parameters['id'] = { 

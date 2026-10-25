@@ -7,7 +7,9 @@ const {
   updatePlaylist,
   deletePlaylist
 } = require('../controllers/playlistController');
-const { validatePlaylist } = require('../middleware/validate');
+
+// Import express-validator rules
+const { playlistValidationRules, validate } = require('../middleware/validate');
 
 // GET all playlists
 router.get('/', (req, res, next) => {
@@ -17,7 +19,7 @@ router.get('/', (req, res, next) => {
 });
 
 // POST create new playlist
-router.post('/', validatePlaylist, (req, res, next) => {
+router.post('/', playlistValidationRules, validate, (req, res, next) => {
   // #swagger.tags = ['Playlists']
   // #swagger.summary = 'Create a new playlist'
   /* #swagger.parameters['body'] = {
@@ -37,7 +39,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // PUT update playlist
-router.put('/:id', validatePlaylist, (req, res, next) => {
+router.put('/:id', playlistValidationRules, validate, (req, res, next) => {
   // #swagger.tags = ['Playlists']
   // #swagger.summary = 'Update a playlist'
   updatePlaylist(req, res, next);

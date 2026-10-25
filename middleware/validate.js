@@ -1,61 +1,35 @@
-// Middleware for validating Playlist data
-const validatePlaylist = (req, res, next) => {
-  const { name, creator, genre } = req.body;
+const { body, validationResult } = require('express-validator');
 
-  // For PUT requests, allow partial updates
-  if (req.method === 'PUT') {
-    if (name && name.length < 3) {
-      return res.status(400).json({ success: false, message: 'Name must be at least 3 characters.' });
-    }
+const userValidationRules = [
+  body('name').trim().notEmpty().withMessage('Name is required').isLength({ min: 2 }).withMessage('Name must be at least 2 characters long'),
+  body('email').trim().notEmpty().withMessage('Email is required').isEmail().withMessage('Please use a valid email address').normalizeEmail(),
+  body('password').if((value, { req }) => req.method === 'POST' || value).notEmpty().withMessage('Password is required').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
+  body('role').optional().isIn(['user', 'admin']).withMessage('Role must be either user or admin')
+];
+
+const playlistValidationRules = [
+  body('name').trim().notEmpty().withMessage('Playlist name is required').isLength({ min: 3, max: 50 }).withMessage('Name must be between 3 and 50 characters'),
+  body('creator').trim().notEmpty().withMessage('Creator is required').isLength({ min: 2 }).withMessage('Creator name must be at least 2 characters long'),
+  body('genre').notEmpty().withMessage('Genre is required').isIn(['rock', 'pop', 'jazz', 'classical', 'electronic', 'hip-hop', 'reggae', 'blues', 'folk', 'other']).withMessage('Invalid genre provided'),
+  body('description').optional().trim().isLength({ max: 200 }).withMessage('Description cannot exceed 200 characters'),
+  body('isPublic').optional().isBoolean().withMessage('isPublic must be a boolean'),
+  body('songs').optional().isArray().withMessage('Songs must be an array of strings')
+];
+
+const validate = (req, res, next) => {
+  const errors = validationResult(req);
+  if (errors.isEmpty()) {
     return next();
   }
 
-  // For POST requests, all fields are required
-  if (!name || !creator || !genre) {
-    return res.status(400).json({
-      success: false,
-      message: 'Validation failed: name, creator, and genre are required.'
-    });
-  }
+  const extractedErrors = [];
+  errors.array().map((err) => extractedErrors.push({ [err.path]: err.msg }));
 
-  if (name.length < 3) {
-    return res.status(400).json({ success: false, message: 'Name must be at least 3 characters.' });
-  }
+  const error = new Error('Validation failed');
+  error.statusCode = 400;
+  error.errors = extractedErrors;
 
-  // Validate genre against allowed list
-  const allowedGenres = ['rock', 'pop', 'jazz', 'classical', 'electronic', 'hip-hop', 'reggae', 'blues', 'folk', 'other'];
-  if (!allowedGenres.includes(genre)) {
-    return res.status(400).json({ success: false, message: 'Invalid genre provided.' });
-  }
-
-  next();
+  return next(error);
 };
 
-// Middleware for validating User data
-const validateUser = (req, res, next) => {
-  const { name, email, password } = req.body;
-
-  // For PUT requests, allow partial updates
-  if (req.method === 'PUT') {
-    if (name && name.length < 2) {
-      return res.status(400).json({ success: false, message: 'Name must be at least 2 characters.' });
-    }
-    return next();
-  }
-
-  // For POST requests, all fields are required
-  if (!name || !email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: 'Validation failed: name, email, and password are required.'
-    });
-  }
-  
-  if (password.length < 6) {
-    return res.status(400).json({ success: false, message: 'Password must be at least 6 characters.' });
-  }
-
-  next();
-};
-
-module.exports = { validatePlaylist, validateUser };
+module.exports = { userValidationRules, playlistValidationRules, validate };

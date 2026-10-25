@@ -7,7 +7,7 @@ const {
   updateUser,
   deleteUser
 } = require('../controllers/userController');
-const { userValidationRules, validate } = require('../middleware/validate');
+const { validateUser } = require('../middleware/validate');
 
 // GET all users
 router.get('/', (req, res, next) => {
@@ -23,7 +23,7 @@ router.get('/', (req, res, next) => {
 });
 
 // POST create new user
-router.post('/', userValidationRules(), validate, (req, res, next) => {
+router.post('/', validateUser, (req, res, next) => {
   // #swagger.tags = ['Users']
   // #swagger.summary = 'Create a new user'
   // #swagger.description = 'Adds a new user to the database.'
@@ -61,7 +61,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // PUT update user
-router.put('/:id', userValidationRules(), validate, (req, res, next) => {
+router.put('/:id', validateUser, (req, res, next) => {
   // #swagger.tags = ['Users']
   // #swagger.summary = 'Update a user'
   /* #swagger.parameters['id'] = { 

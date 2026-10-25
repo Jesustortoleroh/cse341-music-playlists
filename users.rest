@@ -1,81 +1,97 @@
 ### ============================================
-### RENDER - USERS 
+### USERS API ( Validation & Errors)
 ### ============================================
 
-### 1. Get all users (Success 200)
-GET https://cse341-music-playlists.onrender.com/api/users
 
-### 2. Get user by ID (Success 200) - Replace ID with a real one from your DB
-GET https://cse341-music-playlists.onrender.com/api/users/66abc123def4567890abcdef
-
-### 3. Get user by ID (Error 400 CastError) - Invalid ID format
-GET https://cse341-music-playlists.onrender.com/api/users/123
-
-### 4. Get user by ID (Error 404 Not Found) - Valid format but doesn't exist
-GET https://cse341-music-playlists.onrender.com/api/users/000000000000000000000000
-
-### 5. Create user (Success 201)
+### 1. Create Admin User (Success 201)
 POST https://cse341-music-playlists.onrender.com/api/users
 Content-Type: application/json
 
 {
   "name": "Jesus Tortolero",
-  "email": "jesus.test@example.com",
-  "password": "password123",
+  "email": "jesus.admin@example.com",
+  "password": "AdminPassword123!",
+  "role": "admin"
+}
+
+### 2. Create Normal User (Success 201)
+POST https://cse341-music-playlists.onrender.com/api/users
+Content-Type: application/json
+
+{
+  "name": "Miles Davis",
+  "email": "miles.davis@example.com",
+  "password": "JazzTrumpet1959",
   "role": "user"
 }
 
-### 6. Create user (Error 400 Validation) - Missing email and short password
+### 3. Create User - Error 400 (Duplicate Email)
 POST https://cse341-music-playlists.onrender.com/api/users
 Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "email": "john.doe@example.com",
-  "password": "123"
+  "name": "Clone of Jesus",
+  "email": "jesus.admin@example.com",
+  "password": "AnotherPassword",
+  "role": "user"
 }
 
-### 7. Create user (Error 400 Validation) - Invalid email format
+### 4. Create User - Error 400 (Validation: Missing fields)
 POST https://cse341-music-playlists.onrender.com/api/users
 Content-Type: application/json
 
 {
-  "name": "Jane Doe",
-  "email": "not-an-email",
-  "password": "password123"
+  "name": "Error User"
 }
 
-### 8. Create user (Error 409 Conflict) - Duplicate email
-# NOTE: Run Request 5 first. Then run this one with the same email.
-POST https://cse341-music-playlists.onrender.com/api/users
+### 5. Get all Users (Success 200)
+GET https://cse341-music-playlists.onrender.com/api/users
+
+
+### ============================================
+### ============================================
+### PLAYLISTS API (For Week 6 PUT & DELETE)
+### ============================================
+### ============================================
+
+### 6. Get all playlists (Success 200)
+GET https://cse341-music-playlists.onrender.com/api/playlists
+
+### 7. Get playlist by ID (Success 200) - Jazz Playlist
+GET https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
+
+### 8. Create playlist (Success 201)
+POST https://cse341-music-playlists.onrender.com/api/playlists
 Content-Type: application/json
 
 {
-  "name": "Another Jesus",
-  "email": "jesus.test@example.com",
-  "password": "password123",
-  "role": "admin"
+  "name": "Reggae Vibes",
+  "description": "Positive vibrations for sunny days",
+  "creator": "Jesus Tortolero",
+  "genre": "reggae",
+  "songs": ["No Woman, No Cry", "Three Little Birds"],
+  "isPublic": true,
+  "coverImage": "https://picsum.photos/400/400?random=5"
 }
 
-### 9. Update user (Success 200) - Replace ID with a real one
-PUT https://cse341-music-playlists.onrender.com/api/users/66abc123def4567890abcdef
+### 9. Update playlist (Success 200) - Updating Jazz Playlist
+PUT https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
 Content-Type: application/json
 
 {
-  "name": "Jesus Tortolero Updated",
-  "role": "admin"
+  "name": "Jazz for Studying - Masterpiece Edition"
 }
 
-### 10. Update user (Error 404) - Valid format but doesn't exist
-PUT https://cse341-music-playlists.onrender.com/api/users/000000000000000000000000
+### 10. Update playlist (Error 400 Validation) - Invalid genre
+PUT https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
 Content-Type: application/json
 
 {
-  "name": "This will fail"
+  "genre": "heavy-metal" 
 }
 
-### 11. Delete user (Success 200) - Replace ID with a real one
-DELETE https://cse341-music-playlists.onrender.com/api/users/66abc123def4567890abcdef
+### 11. Delete playlist (Success 200) - Deleting "My Awesome Playlist"
+DELETE https://cse341-music-playlists.onrender.com/api/playlists/6ad6cc95ca7403d6e432f500
 
-### 12. Delete user (Error 404) - Valid format but doesn't exist
-DELETE https://cse341-music-playlists.onrender.com/api/users/000000000000000000000000
+### 12. Delete playlist (Error 404) - Non-existent ID
+DELETE https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000

@@ -55,7 +55,7 @@ module.exports.updatePlaylist = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Playlist not found' });
     }
     // Return 204 No Content for a successful update
-    res.status(204).send(); 
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

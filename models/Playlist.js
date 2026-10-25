@@ -24,7 +24,18 @@ module.exports = (mongoose) => {
         type: String,
         required: [true, 'Genre is required'],
         enum: {
-          values: ['rock', 'pop', 'jazz', 'classical', 'electronic', 'hip-hop', 'reggae', 'blues', 'folk', 'other'],
+          values: [
+            'rock',
+            'pop',
+            'jazz',
+            'classical',
+            'electronic',
+            'hip-hop',
+            'reggae',
+            'blues',
+            'folk',
+            'other'
+          ],
           message: '{VALUE} is not a valid genre'
         }
       },

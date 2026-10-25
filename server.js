@@ -26,7 +26,7 @@ const startServer = async () => {
       console.log(`Documentation at http://localhost:${port}/api-docs`);
     });
   } catch (err) {
-    // Log the error and exit gracefully 
+    // Log the error and exit gracefully
     console.error('Cannot connect to the database!', err.message);
     throw err; // Let Node.js exit with a non-zero code naturally
   }

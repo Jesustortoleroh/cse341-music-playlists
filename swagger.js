@@ -8,7 +8,6 @@ const doc = {
   },
   host: 'cse341-music-playlists.onrender.com',
   schemes: ['https'],
-  // New: Tell swagger where the routes are mounted so it builds the paths correctly
   basePath: '/',
   definitions: {
     PlaylistInput: {
@@ -50,8 +49,7 @@ const doc = {
 };
 
 const outputFile = './swagger.json';
-const endpointsFiles = ['./routes/playlistRoutes.js', './routes/userRoutes.js'];
+// Corrected file paths to match the professor's structure
+const endpointsFiles = ['./routes/playlist.js', './routes/user.js'];
 
-swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
-  require('./server.js'); // Optionally start the server after generating
-});
+swaggerAutogen(outputFile, endpointsFiles, doc);

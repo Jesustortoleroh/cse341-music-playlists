@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 const dbConfig = require('../config/db.config');
 
-const db = {
-  mongoose: mongoose,
-  url: dbConfig.url
-};
+const db = {};
+db.mongoose = mongoose;
+db.url = dbConfig.url;
+
+// Pass mongoose to the models (Factory Pattern)
+db.User = require('./User')(mongoose);
+db.Playlist = require('./Playlist')(mongoose);
 
 module.exports = db;

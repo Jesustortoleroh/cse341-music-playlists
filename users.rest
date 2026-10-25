@@ -7,9 +7,9 @@ POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "name": "Local User",
-  "email": "local@example.com",
-  "password": "localpassword123",
+  "name": "Josephine Doe",
+  "email": "Josephine.Doe@example.com",
+  "password": "password123",
   "role": "user"
 }
 

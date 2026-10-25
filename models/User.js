@@ -31,18 +31,14 @@ module.exports = (mongoose) => {
     { timestamps: true }
   );
 
-  // Mongoose Middleware: Hash password before saving
-  userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-    try {
-      const salt = await bcrypt.genSalt(10);
-      this.password = await bcrypt.hash(this.password, salt);
-      next();
-    } catch (error) {
-      next(error);
-    }
+  // Mongoose 9 Hook: Hash password before saving (async, no 'next')
+  userSchema.pre('save', async function () {
+    if (!this.isModified('password')) return;
+    
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
   });
 
-  
+  // Note: Exporting as a function (Factory Pattern) to match the professor's structure
   return mongoose.model('users', userSchema);
 };

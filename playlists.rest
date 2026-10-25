@@ -3,8 +3,8 @@
 ### 1. Get all playlists (Success 200)
 GET https://cse341-music-playlists.onrender.com/api/playlists
 
-### 2. Get playlist by ID (Success 200) - Replace ID with a real one from your DB
-GET https://cse341-music-playlists.onrender.com/api/playlists/6ad1a24ba6238671da0fb67a
+### 2. Get playlist by ID (Success 200) - Jazz Playlist
+GET https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
 
 ### 3. Get playlist by ID (Error 400 CastError) - Invalid ID format
 GET https://cse341-music-playlists.onrender.com/api/playlists/123
@@ -49,15 +49,15 @@ Content-Type: application/json
   "genre": "heavy-metal" 
 }
 
-### 8. Update playlist (Success 200) - Replace ID with a real one
-PUT https://cse341-music-playlists.onrender.com/api/playlists/6ad1a330a6238671da0fb680
+### 8. Update playlist (Success 200) - Updating Jazz Playlist
+PUT https://cse341-music-playlists.onrender.com/api/playlists/6ad1a123a6238671da0fb676
 Content-Type: application/json
 
 {
-  "name": "Reggae Roots & Vibes"
+  "name": "Jazz for Studying - Masterpiece Edition"
 }
 
-### 9. Update playlist (Error 404) - Replace ID with a non-existent one
+### 9. Update playlist (Error 404) - Non-existent ID
 PUT https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000
 Content-Type: application/json
 
@@ -65,8 +65,8 @@ Content-Type: application/json
   "name": "This will fail"
 }
 
-### 10. Delete playlist (Success 200) - Replace ID with a real one
-DELETE https://cse341-music-playlists.onrender.com/api/playlists/6ad1a330a6238671da0fb680
+### 10. Delete playlist (Success 200) - Deleting "My Awesome Playlist"
+DELETE https://cse341-music-playlists.onrender.com/api/playlists/6ad6cc95ca7403d6e432f500
 
-### 11. Delete playlist (Error 404) - Replace ID with a non-existent one
+### 11. Delete playlist (Error 404) - Non-existent ID
 DELETE https://cse341-music-playlists.onrender.com/api/playlists/000000000000000000000000

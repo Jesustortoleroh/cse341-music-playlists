@@ -15,9 +15,6 @@ const getUserById = async (req, res) => {
     if (!user) return res.status(404).json({ success: false, message: 'User not found' });
     res.status(200).json({ success: true, data: user });
   } catch (error) {
-    if (error.name === 'CastError') {
-      return res.status(400).json({ success: false, message: 'Invalid ID format.' });
-    }
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -28,12 +25,13 @@ const createUser = async (req, res) => {
     newUser.password = undefined;
     res.status(201).json({ success: true, message: 'User created', data: newUser });
   } catch (error) {
+    // Handle validation errors directly
     if (error.name === 'ValidationError') {
-      const messages = Object.values(error.errors).map((val) => val.message);
+      const messages = Object.values(error.errors).map(val => val.message);
       return res.status(400).json({ success: false, message: messages.join(', ') });
     }
     if (error.code === 11000) {
-      return res.status(409).json({ success: false, message: 'Email already exists' });
+      return res.status(400).json({ success: false, message: 'Email already exists' });
     }
     res.status(500).json({ success: false, message: error.message });
   }

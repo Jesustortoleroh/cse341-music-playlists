@@ -15,7 +15,13 @@ router.get('/', playlistController.getAllPlaylists);
 // #swagger.summary = 'Get all playlists'
 
 // POST create new playlist (Protected)
-router.post('/', isAuthenticated, playlistValidationRules, validate, playlistController.createPlaylist);
+router.post(
+  '/',
+  isAuthenticated,
+  playlistValidationRules,
+  validate,
+  playlistController.createPlaylist
+);
 // #swagger.tags = ['Playlists']
 // #swagger.summary = 'Create a new playlist'
 
@@ -25,7 +31,13 @@ router.get('/:id', playlistController.getPlaylistById);
 // #swagger.summary = 'Get playlist by ID'
 
 // PUT update playlist (Protected)
-router.put('/:id', isAuthenticated, playlistValidationRules, validate, playlistController.updatePlaylist);
+router.put(
+  '/:id',
+  isAuthenticated,
+  playlistValidationRules,
+  validate,
+  playlistController.updatePlaylist
+);
 // #swagger.tags = ['Playlists']
 // #swagger.summary = 'Update a playlist'
 

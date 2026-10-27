@@ -1,4 +1,4 @@
-require('dotenv').config(); 
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -16,17 +16,19 @@ app
   .use(express.json({ limit: '10kb' }))
   .use(express.urlencoded({ extended: true, limit: '10kb' }))
   // Session configuration (Required for Passport)
-  .use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { 
-      secure: process.env.NODE_ENV === 'production', // true in Render, false in local
-      httpOnly: true,
-      sameSite: 'lax', // Prevent CSRF attacks
-      maxAge: 1000 * 60 * 60 * 24 // 1 day
-    }
-  }))
+  .use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: process.env.NODE_ENV === 'production', // true in Render, false in local
+        httpOnly: true,
+        sameSite: 'lax', // Prevent CSRF attacks
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
+      }
+    })
+  )
   .use(passport.initialize())
   .use(passport.session());
 

@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const db = require('./models');
 
@@ -21,6 +22,10 @@ app
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
+      store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI,
+        ttl: 14 * 24 * 60 * 60 // Time to live: 14 days
+      }),
       cookie: {
         secure: process.env.NODE_ENV === 'production', // true in Render, false in local
         httpOnly: true,

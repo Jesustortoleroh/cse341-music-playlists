@@ -8,6 +8,13 @@
   "host": "cse341-music-playlists.onrender.com",
   "basePath": "/",
   "schemes": ["https"],
+  "securityDefinitions": {
+    "session": {
+      "type": "apiKey",
+      "in": "cookie",
+      "name": "connect.sid"
+    }
+  },
   "paths": {
     "/api/playlists": {
       "get": {
@@ -24,6 +31,7 @@
       "post": {
         "tags": ["Playlists"],
         "summary": "Create a new playlist",
+        "security": [{ "session": [] }],
         "parameters": [
           {
             "name": "body",
@@ -34,7 +42,8 @@
         ],
         "responses": {
           "201": { "description": "Created", "schema": { "$ref": "#/definitions/Playlist" } },
-          "400": { "description": "Bad Request - Validation Error" }
+          "400": { "description": "Bad Request - Validation Error" },
+          "401": { "description": "Unauthorized - Must be logged in" }
         }
       }
     },
@@ -52,6 +61,7 @@
       "put": {
         "tags": ["Playlists"],
         "summary": "Update a playlist",
+        "security": [{ "session": [] }],
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" },
           {
@@ -62,17 +72,20 @@
           }
         ],
         "responses": {
-          "200": { "description": "OK", "schema": { "$ref": "#/definitions/Playlist" } },
+          "204": { "description": "No Content - Updated successfully" },
           "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized - Must be logged in" },
           "404": { "description": "Not Found" }
         }
       },
       "delete": {
         "tags": ["Playlists"],
         "summary": "Delete a playlist",
+        "security": [{ "session": [] }],
         "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
           "200": { "description": "OK - Deleted successfully" },
+          "401": { "description": "Unauthorized - Must be logged in" },
           "404": { "description": "Not Found" }
         }
       }
@@ -120,6 +133,7 @@
       "put": {
         "tags": ["Users"],
         "summary": "Update a user",
+        "security": [{ "session": [] }],
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" },
           {
@@ -130,17 +144,20 @@
           }
         ],
         "responses": {
-          "200": { "description": "OK", "schema": { "$ref": "#/definitions/User" } },
+          "204": { "description": "No Content - Updated successfully" },
           "400": { "description": "Bad Request" },
+          "401": { "description": "Unauthorized - Must be logged in" },
           "404": { "description": "Not Found" }
         }
       },
       "delete": {
         "tags": ["Users"],
         "summary": "Delete a user",
+        "security": [{ "session": [] }],
         "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
         "responses": {
           "200": { "description": "OK - Deleted successfully" },
+          "401": { "description": "Unauthorized - Must be logged in" },
           "404": { "description": "Not Found" }
         }
       }
@@ -198,6 +215,7 @@
         "name": { "type": "string", "example": "Jesus Tortolero" },
         "email": { "type": "string", "example": "jesus@example.com" },
         "role": { "type": "string", "example": "user" },
+        "provider": { "type": "string", "example": "github" },
         "createdAt": { "type": "string", "example": "2026-10-17T00:00:00.000Z" },
         "updatedAt": { "type": "string", "example": "2026-10-17T00:00:00.000Z" }
       }

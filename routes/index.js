@@ -17,6 +17,9 @@ router.get('/', (req, res) => {
 router.use('/api/users', require('./user'));
 router.use('/api/playlists', require('./playlist'));
 
+// Auth Routes
+router.use('/auth', require('./auth'));
+
 // Swagger Documentation
 router.use('/', require('./swagger'));
 

@@ -104,3 +104,29 @@ module.exports.deleteUser = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+// Find or create a user from OAuth login
+module.exports.findOrCreateOAuthUser = async (profile, provider) => {
+  // Try to find the user by email
+  let currentUser = await User.findOne({ email: profile.email });
+
+  if (currentUser) {
+    return currentUser; // User exists, return it
+  }
+
+  // If not found, create a new user
+  const newUser = new User({
+    name: profile.name,
+    email: profile.email,
+    provider: provider,
+    role: 'user'
+  });
+
+  await newUser.save();
+  return newUser;
+};
+
+// Find user by ID (used by Passport for deserialization)
+module.exports.getUserByIdForAuth = async (id) => {
+  return await User.findById(id);
+};

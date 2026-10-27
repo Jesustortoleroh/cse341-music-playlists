@@ -1,7 +1,8 @@
-const { body, validationResult } = require('express-validator');
+import { body, validationResult, ValidationChain } from 'express-validator';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 
 // Validation rules for User creation and updates
-const userValidationRules = [
+export const userValidationRules: ValidationChain[] = [
   body('name').trim().notEmpty().withMessage('Name is required'),
   body('email')
     .trim()
@@ -13,7 +14,7 @@ const userValidationRules = [
 ];
 
 // Validation rules for Playlist creation and updates
-const playlistValidationRules = [
+export const playlistValidationRules: ValidationChain[] = [
   body('name').trim().isLength({ min: 3 }).withMessage('Name must be at least 3 characters'),
   body('creator').notEmpty().withMessage('Creator is required'),
   body('genre')
@@ -33,21 +34,17 @@ const playlistValidationRules = [
 ];
 
 // Middleware to check for validation errors
-const validate = (req, res, next) => {
+export const validate: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    // If there are errors, return a 400 Bad Request directly (No errorHandler)
-    // This prevents the 'next is not a function' crash in Express 5
-    return res.status(400).json({
+    res.status(400).json({
       success: false,
       message: 'Validation failed',
       errors: errors.array()
     });
+    return;
   }
 
-  // If validation passes, continue to the controller
   next();
 };
-
-module.exports = { userValidationRules, playlistValidationRules, validate };

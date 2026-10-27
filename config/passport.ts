@@ -1,20 +1,26 @@
-const GitHubStrategy = require('passport-github2').Strategy;
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const userController = require('../controllers/user');
+import { PassportStatic } from 'passport';
+import { Strategy as GitHubStrategy, Profile as GitHubProfile } from 'passport-github2';
+import { Strategy as GoogleStrategy, Profile as GoogleProfile } from 'passport-google-oauth20';
+import * as userController from '../controllers/user';
 
-module.exports = (passport) => {
+export default (passport: PassportStatic) => {
   // --- GITHUB STRATEGY ---
   passport.use(
     new GitHubStrategy(
       {
-        clientID: process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        clientID: process.env.GITHUB_CLIENT_ID as string,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
         callbackURL:
           process.env.NODE_ENV === 'production'
             ? 'https://cse341-music-playlists.onrender.com/auth/github/callback'
             : 'http://localhost:3000/auth/github/callback'
       },
-      async (accessToken, refreshToken, profile, done) => {
+      async (
+        accessToken: string,
+        refreshToken: string,
+        profile: GitHubProfile,
+        done: (error: any, user?: any) => void
+      ) => {
         try {
           let email = profile.emails && profile.emails[0] ? profile.emails[0].value : null;
 
@@ -22,14 +28,14 @@ module.exports = (passport) => {
             const response = await fetch('https://api.github.com/user/emails', {
               headers: { Authorization: `token ${accessToken}` }
             });
-            const emails = await response.json();
-            const primaryEmail = emails.find((e) => e.primary);
+            const emails: any = await response.json();
+            const primaryEmail = emails.find((e: any) => e.primary);
             email = primaryEmail ? primaryEmail.email : `${profile.username}@github.com`;
           }
 
           const userData = {
-            email: email,
-            name: profile.displayName || profile.username
+            email: email as string,
+            name: profile.displayName || profile.username || 'GitHub User'
           };
 
           // Use the controller function
@@ -46,18 +52,23 @@ module.exports = (passport) => {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        clientID: process.env.GOOGLE_CLIENT_ID as string,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         callbackURL:
           process.env.NODE_ENV === 'production'
             ? 'https://cse341-music-playlists.onrender.com/auth/google/callback'
             : 'http://localhost:3000/auth/google/callback'
       },
-      async (accessToken, refreshToken, profile, done) => {
+      async (
+        accessToken: string,
+        refreshToken: string,
+        profile: GoogleProfile,
+        done: (error: any, user?: any) => void
+      ) => {
         try {
           const userData = {
-            email: profile.emails[0].value,
-            name: profile.displayName || profile.name.givenName
+            email: profile.emails![0].value,
+            name: profile.displayName || profile.name?.givenName || 'Google User'
           };
 
           const user = await userController.findOrCreateOAuthUser(userData, 'google');
@@ -71,12 +82,12 @@ module.exports = (passport) => {
 
   // --- SESSION MANAGEMENT ---
   // Serialize user to store in session (saves user ID in the cookie)
-  passport.serializeUser((user, done) => {
+  passport.serializeUser((user: any, done) => {
     done(null, user.id);
   });
 
   // Deserialize user from session (retrieves user from DB on each request)
-  passport.deserializeUser(async (id, done) => {
+  passport.deserializeUser(async (id: string, done) => {
     try {
       const user = await userController.getUserByIdForAuth(id);
       done(null, user);

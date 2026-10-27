@@ -1,4 +1,4 @@
-const swaggerAutogen = require('swagger-autogen')();
+import swaggerAutogen from 'swagger-autogen';
 
 const doc = {
   info: {
@@ -42,6 +42,7 @@ const doc = {
       name: 'Jesus Tortolero',
       email: 'jesus@example.com',
       role: 'user',
+      provider: 'github',
       createdAt: '2026-10-17T00:00:00.000Z',
       updatedAt: '2026-10-17T00:00:00.000Z'
     }
@@ -49,7 +50,6 @@ const doc = {
 };
 
 const outputFile = './swagger.json';
-// Corrected file paths to match the professor's structure
-const endpointsFiles = ['./routes/playlist.js', './routes/user.js'];
+const endpointsFiles = ['./routes/playlist.ts', './routes/user.ts'];
 
 swaggerAutogen(outputFile, endpointsFiles, doc);

@@ -7,7 +7,9 @@ module.exports.getAllPlaylists = async (req, res) => {
     const playlists = await Playlist.find();
     res.status(200).json({ success: true, count: playlists.length, data: playlists });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    // Best practice: Check if error is an instance of Error before accessing message
+    const message = error instanceof Error ? error.message : 'An unknown error occurred';
+    res.status(500).json({ success: false, message });
   }
 };
 
@@ -20,11 +22,12 @@ module.exports.getPlaylistById = async (req, res) => {
     }
     res.status(200).json({ success: true, data: playlist });
   } catch (error) {
-    // Handle invalid ID format
+    // Handle invalid ID format (CastError)
     if (error.name === 'CastError') {
       return res.status(400).json({ success: false, message: 'Invalid ID format.' });
     }
-    res.status(500).json({ success: false, message: error.message });
+    const message = error instanceof Error ? error.message : 'An unknown error occurred';
+    res.status(500).json({ success: false, message });
   }
 };
 
@@ -40,7 +43,8 @@ module.exports.createPlaylist = async (req, res) => {
       const messages = Object.values(error.errors).map((val) => val.message);
       return res.status(400).json({ success: false, message: messages.join(', ') });
     }
-    res.status(500).json({ success: false, message: error.message });
+    const message = error instanceof Error ? error.message : 'An unknown error occurred';
+    res.status(500).json({ success: false, message });
   }
 };
 
@@ -57,7 +61,8 @@ module.exports.updatePlaylist = async (req, res) => {
     // Return 204 No Content for a successful update
     res.status(204).send();
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    const message = error instanceof Error ? error.message : 'An unknown error occurred';
+    res.status(500).json({ success: false, message });
   }
 };
 
@@ -70,6 +75,7 @@ module.exports.deletePlaylist = async (req, res) => {
     }
     res.status(200).json({ success: true, message: 'Playlist deleted successfully' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    const message = error instanceof Error ? error.message : 'An unknown error occurred';
+    res.status(500).json({ success: false, message });
   }
 };

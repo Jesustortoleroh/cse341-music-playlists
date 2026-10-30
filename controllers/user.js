@@ -2,65 +2,54 @@ const db = require('../models');
 const User = db.User;
 
 // POST create new user
-module.exports.createUser = (req, res) => {
+module.exports.createUser = async (req, res) => {
   try {
     if (!req.body.name || !req.body.email || !req.body.password) {
       return res.status(400).json({ message: 'Content can not be empty!' });
     }
 
     const user = new User(req.body);
-    user
-      .save()
-      .then((data) => {
-        // Hide password from the response for security
-        data.password = undefined;
-        res.status(201).json({ success: true, message: 'User created', data: data });
-      })
-      .catch((err) => {
-        // Handle Mongoose validation errors or duplicate emails
-        if (err.code === 11000) {
-          return res.status(400).json({ message: 'Email already exists' });
-        }
-        res
-          .status(500)
-          .json({ message: err.message || 'Some error occurred while creating the user.' });
-      });
+    const data = await user.save();
+
+    // Hide password from the response for security
+    const userResponse = data.toObject();
+    delete userResponse.password;
+
+    res.status(201).json({ success: true, message: 'User created', data: userResponse });
   } catch (err) {
-    res.status(500).json(err);
+    // Handle duplicate emails (MongoDB error code 11000)
+    if (err.code === 11000) {
+      return res.status(400).json({ message: 'Email already exists' });
+    }
+    const message =
+      err instanceof Error ? err.message : 'Some error occurred while creating the user.';
+    res.status(500).json({ message });
   }
 };
 
 // GET all users
-module.exports.getAllUsers = (req, res) => {
+module.exports.getAllUsers = async (req, res) => {
   try {
-    User.find({})
-      .then((data) => {
-        res.status(200).json({ success: true, count: data.length, data: data });
-      })
-      .catch((err) => {
-        res
-          .status(500)
-          .json({ message: err.message || 'Some error occurred while retrieving users.' });
-      });
+    const data = await User.find();
+    res.status(200).json({ success: true, count: data.length, data: data });
   } catch (err) {
-    res.status(500).json(err);
+    const message =
+      err instanceof Error ? err.message : 'Some error occurred while retrieving users.';
+    res.status(500).json({ message });
   }
 };
 
 // GET user by ID
-module.exports.getUserById = (req, res) => {
+module.exports.getUserById = async (req, res) => {
   try {
-    const id = req.params.id;
-    User.findById(id)
-      .then((data) => {
-        if (!data) return res.status(404).json({ message: 'User not found' });
-        res.status(200).json({ success: true, data: data });
-      })
-      .catch((err) => {
-        res.status(500).json({ message: err.message || 'Some error occurred.' });
-      });
+    const data = await User.findById(req.params.id);
+    if (!data) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ success: true, data: data });
   } catch (err) {
-    res.status(500).json(err);
+    const message = err instanceof Error ? err.message : 'Some error occurred.';
+    res.status(500).json({ message });
   }
 };
 
@@ -71,17 +60,16 @@ module.exports.updateUser = async (req, res) => {
     if (!id) {
       return res.status(400).json({ message: 'Invalid ID Supplied' });
     }
-    User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
-      .then((data) => {
-        if (!data) return res.status(404).json({ message: 'User not found' });
-        // Return 204 No Content for a successful update
-        res.status(204).send();
-      })
-      .catch((err) => {
-        res.status(500).json({ message: err.message || 'Some error occurred while updating.' });
-      });
+
+    const data = await User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+    if (!data) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    // Return 204 No Content for a successful update
+    res.status(204).send();
   } catch (err) {
-    res.status(500).json(err);
+    const message = err instanceof Error ? err.message : 'Some error occurred while updating.';
+    res.status(500).json({ message });
   }
 };
 
@@ -92,16 +80,15 @@ module.exports.deleteUser = async (req, res) => {
     if (!id) {
       return res.status(400).json({ message: 'Invalid ID Supplied' });
     }
-    User.findByIdAndDelete(id)
-      .then((data) => {
-        if (!data) return res.status(404).json({ message: 'User not found' });
-        res.status(200).json({ success: true, message: 'User deleted successfully' });
-      })
-      .catch((err) => {
-        res.status(500).json({ message: err.message || 'Some error occurred while deleting.' });
-      });
+
+    const data = await User.findByIdAndDelete(id);
+    if (!data) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ success: true, message: 'User deleted successfully' });
   } catch (err) {
-    res.status(500).json(err);
+    const message = err instanceof Error ? err.message : 'Some error occurred while deleting.';
+    res.status(500).json({ message });
   }
 };
 

@@ -16,20 +16,23 @@ module.exports = (passport) => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          let email = profile.emails && profile.emails[0] ? profile.emails[0].value : null;
+          // Best practice: Use optional chaining to safely access nested properties
+          let email = profile?.emails?.[0]?.value ?? null;
 
+          // If email is not available (private GitHub email), fetch it via API
           if (!email) {
             const response = await fetch('https://api.github.com/user/emails', {
               headers: { Authorization: `token ${accessToken}` }
             });
             const emails = await response.json();
+            // Use nullish coalescing for safe fallback
             const primaryEmail = emails.find((e) => e.primary);
-            email = primaryEmail ? primaryEmail.email : `${profile.username}@github.com`;
+            email = primaryEmail?.email ?? `${profile.username}@github.com`;
           }
 
           const userData = {
             email: email,
-            name: profile.displayName || profile.username
+            name: profile.displayName ?? profile.username
           };
 
           // Use the controller function
@@ -55,9 +58,10 @@ module.exports = (passport) => {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
+          // Google always provides emails, but we use optional chaining for safety
           const userData = {
-            email: profile.emails[0].value,
-            name: profile.displayName || profile.name.givenName
+            email: profile?.emails?.[0]?.value,
+            name: profile?.displayName ?? profile?.name?.givenName
           };
 
           const user = await userController.findOrCreateOAuthUser(userData, 'google');

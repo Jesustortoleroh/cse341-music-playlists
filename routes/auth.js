@@ -30,9 +30,13 @@ router.get('/profile', (req, res) => {
 });
 
 // --- LOGOUT ROUTE ---
-router.get('/logout', (req, res, next) => {
+// Modern practice: Handle errors directly instead of using next()
+router.get('/logout', (req, res) => {
   req.logout((err) => {
-    if (err) return next(err);
+    if (err) {
+      const message = err instanceof Error ? err.message : 'Error logging out';
+      return res.status(500).json({ success: false, message });
+    }
     res.json({ success: true, message: 'Logged out successfully' });
   });
 });

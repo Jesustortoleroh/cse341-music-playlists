@@ -15,7 +15,8 @@ const doc = {
       type: 'apiKey',
       in: 'cookie',
       name: 'connect.sid',
-      description: 'Session-based authentication. Login with GitHub or Google to get a secure session cookie.'
+      description:
+        'Session-based authentication. Login with GitHub or Google to get a secure session cookie.'
     }
   },
   definitions: {

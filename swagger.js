@@ -9,6 +9,15 @@ const doc = {
   host: 'cse341-music-playlists.onrender.com',
   schemes: ['https'],
   basePath: '/',
+  // Add security definitions for OAuth session cookies
+  securityDefinitions: {
+    session: {
+      type: 'apiKey',
+      in: 'cookie',
+      name: 'connect.sid',
+      description: 'Session-based authentication. Login with GitHub or Google to get a secure session cookie.'
+    }
+  },
   definitions: {
     PlaylistInput: {
       name: 'My Awesome Playlist',
@@ -42,6 +51,7 @@ const doc = {
       name: 'Jesus Tortolero',
       email: 'jesus@example.com',
       role: 'user',
+      provider: 'github', // <-- Nuevo campo para OAuth
       createdAt: '2026-10-17T00:00:00.000Z',
       updatedAt: '2026-10-17T00:00:00.000Z'
     }
@@ -49,7 +59,6 @@ const doc = {
 };
 
 const outputFile = './swagger.json';
-// Corrected file paths to match the professor's structure
 const endpointsFiles = ['./routes/playlist.js', './routes/user.js'];
 
 swaggerAutogen(outputFile, endpointsFiles, doc);

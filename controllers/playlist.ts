@@ -8,8 +8,10 @@ export const getAllPlaylists = async (req: Request, res: Response): Promise<void
   try {
     const playlists = await Playlist.find();
     res.status(200).json({ success: true, count: playlists.length, data: playlists });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : 'Some error occurred while retrieving playlists.';
+    res.status(500).json({ success: false, message });
   }
 };
 
@@ -22,12 +24,14 @@ export const getPlaylistById = async (req: Request, res: Response): Promise<void
       return;
     }
     res.status(200).json({ success: true, data: playlist });
-  } catch (error: any) {
-    if (error.name === 'CastError') {
+  } catch (err: unknown) {
+    // Handle CastError (invalid MongoDB ID format)
+    if (err && typeof err === 'object' && 'name' in err && err.name === 'CastError') {
       res.status(400).json({ success: false, message: 'Invalid ID format.' });
       return;
     }
-    res.status(500).json({ success: false, message: error.message });
+    const message = err instanceof Error ? err.message : 'Some error occurred.';
+    res.status(500).json({ success: false, message });
   }
 };
 
@@ -37,13 +41,17 @@ export const createPlaylist = async (req: Request, res: Response): Promise<void>
     const newPlaylist = new Playlist(req.body);
     const savedPlaylist = await newPlaylist.save();
     res.status(201).json({ success: true, data: savedPlaylist });
-  } catch (error: any) {
-    if (error.name === 'ValidationError') {
-      const messages = Object.values(error.errors).map((val: any) => val.message);
+  } catch (err: unknown) {
+    // Handle Mongoose ValidationError
+    if (err && typeof err === 'object' && 'name' in err && err.name === 'ValidationError') {
+      const validationErr = err as unknown as { errors: Record<string, { message: string }> };
+      const messages = Object.values(validationErr.errors ?? {}).map((val) => val.message);
       res.status(400).json({ success: false, message: messages.join(', ') });
       return;
     }
-    res.status(500).json({ success: false, message: error.message });
+    const message =
+      err instanceof Error ? err.message : 'Some error occurred while creating the playlist.';
+    res.status(500).json({ success: false, message });
   }
 };
 
@@ -59,8 +67,9 @@ export const updatePlaylist = async (req: Request, res: Response): Promise<void>
       return;
     }
     res.status(204).send();
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Some error occurred while updating.';
+    res.status(500).json({ success: false, message });
   }
 };
 
@@ -73,7 +82,8 @@ export const deletePlaylist = async (req: Request, res: Response): Promise<void>
       return;
     }
     res.status(200).json({ success: true, message: 'Playlist deleted successfully' });
-  } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Some error occurred while deleting.';
+    res.status(500).json({ success: false, message });
   }
 };

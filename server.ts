@@ -88,7 +88,7 @@ const startServer = async (): Promise<void> => {
     // 6. Listen on httpServer (not app directly)
     httpServer.listen(port, () => {
       console.log(`DB Connected and server running on port ${port}.`);
-      console.log(`REST Documentation at http://localhost:${port}/api-docs`);
+      console.log(`API Documentation at http://localhost:${port}/api-docs`);
       console.log(`GraphQL endpoint at http://localhost:${port}/graphql`);
     });
   } catch (err: unknown) {

@@ -7,9 +7,16 @@ import helmet from 'helmet';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from 'passport';
+import http from 'http';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@as-integrations/express5';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+
 import db from './models';
 import initializePassport from './config/passport';
 import routes from './routes';
+import { typeDefs } from './graphql/typeDefs';
+import { resolvers } from './graphql/resolvers';
 
 const port: number = parseInt(process.env.PORT || '3000', 10);
 const app: Application = express();
@@ -44,9 +51,6 @@ app
 // Initialize Passport strategies
 initializePassport(passport);
 
-// Routes
-app.use('/', routes);
-
 // Database Connection and Server Start
 const startServer = async (): Promise<void> => {
   try {
@@ -55,9 +59,37 @@ const startServer = async (): Promise<void> => {
     }
 
     await db.mongoose.connect(db.url);
-    app.listen(port, () => {
+    console.log('MongoDB connected');
+
+    // 1. Create HTTP server (required for Apollo's graceful shutdown plugin)
+    const httpServer = http.createServer(app);
+
+    // 2. Configure Apollo Server
+    const apolloServer = new ApolloServer({
+      typeDefs,
+      resolvers,
+      plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+    });
+
+    // 3. IMPORTANT: Wait for Apollo to start
+    await apolloServer.start();
+
+    // 4. Mount Apollo middleware at /graphql (after Passport session setup)
+    app.use(
+      '/graphql',
+      expressMiddleware(apolloServer, {
+        context: async ({ req, res }) => ({ req, res })
+      })
+    );
+
+    // 5. Mount REST routes (Swagger) - Keep for documentation purposes
+    app.use('/', routes);
+
+    // 6. Listen on httpServer (not app directly)
+    httpServer.listen(port, () => {
       console.log(`DB Connected and server running on port ${port}.`);
-      console.log(`Documentation at http://localhost:${port}/api-docs`);
+      console.log(`REST Documentation at http://localhost:${port}/api-docs`);
+      console.log(`GraphQL endpoint at http://localhost:${port}/graphql`);
     });
   } catch (err: unknown) {
     if (err instanceof Error) {

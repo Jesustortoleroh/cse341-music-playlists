@@ -9,6 +9,14 @@ const doc = {
   host: 'cse341-music-playlists.onrender.com',
   schemes: ['https'],
   basePath: '/',
+  securityDefinitions: {
+    session: {
+      type: 'apiKey',
+      in: 'cookie',
+      name: 'connect.sid',
+      description: 'Session-based authentication. Login with GitHub or Google to get a secure session cookie.'
+    }
+  },
   definitions: {
     PlaylistInput: {
       name: 'My Awesome Playlist',
@@ -52,4 +60,8 @@ const doc = {
 const outputFile = './swagger.json';
 const endpointsFiles = ['./routes/playlist.ts', './routes/user.ts'];
 
-swaggerAutogen(outputFile, endpointsFiles, doc);
+// Handle the Promise to satisfy TypeScript
+(async () => {
+  await swaggerAutogen(outputFile, endpointsFiles, doc);
+  console.log('Swagger documentation generated successfully.');
+})();

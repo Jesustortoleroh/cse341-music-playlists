@@ -12,10 +12,54 @@
     "session": {
       "type": "apiKey",
       "in": "cookie",
-      "name": "connect.sid"
+      "name": "connect.sid",
+      "description": "Session-based authentication. Login with GitHub or Google to get a secure session cookie."
     }
   },
   "paths": {
+    "/auth/github": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Login with GitHub",
+        "description": "Redirects the user to GitHub for OAuth 2.0 authentication.",
+        "responses": {
+          "302": { "description": "Redirect to GitHub" }
+        }
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Login with Google",
+        "description": "Redirects the user to Google for OAuth 2.0 authentication.",
+        "responses": {
+          "302": { "description": "Redirect to Google" }
+        }
+      }
+    },
+    "/auth/profile": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Get current user profile",
+        "description": "Returns the authenticated user's profile data.",
+        "security": [{ "session": [] }],
+        "responses": {
+          "200": { "description": "OK - User profile returned" },
+          "401": { "description": "Unauthorized - Not logged in" }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": ["Authentication"],
+        "summary": "Logout",
+        "description": "Destroys the current user session.",
+        "security": [{ "session": [] }],
+        "responses": {
+          "200": { "description": "OK - Logged out successfully" }
+        }
+      }
+    },
     "/api/playlists": {
       "get": {
         "tags": ["Playlists"],

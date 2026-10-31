@@ -1,16 +1,16 @@
-# 🎵 Music Playlists API
+# 🎵 Music Playlists API - TypeScript & GraphQL
 
-REST API to manage music playlists. CSE 341 Project - BYU-Idaho.
+This is the **Extra Credit** version of my CSE 341 project. It includes two advanced features:
+1.  **TypeScript:** The entire backend is written in `.ts` with strict typing (no `.js` files).
+2.  **GraphQL:** REST is replaced by Apollo Server, providing a single `/graphql` endpoint.
 
-## 📋 Description
+## 🚀 Live Demo
+- **GraphQL Sandbox:** [https://cse341-music-playlists-ts.onrender.com/graphql](https://cse341-music-playlists-ts.onrender.com/graphql)
 
-Music Playlists API allows users to manage their own music playlists. It includes a working connection to MongoDB, GET and POST endpoints, and auto-generated Swagger documentation.
+## 🛠️ How to Run Locally
 
-## 🚀 Technologies
-
-- Node.js
-- Express
-- MongoDB + Mongoose
-- Swagger (swagger-autogen + swagger-ui-express)
-- dotenv
-- CORS
+1. Clone the repository and switch to the correct branch:
+   ```bash
+   git clone https://github.com/Jesustortoleroh/cse341-music-playlists.git
+   cd cse341-music-playlists
+   git checkout extra-typescript-graphql

@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
 import * as playlistController from '../controllers/playlist';
-import { playlistValidationRules, validate } from '../util/validation';
+import { playlistValidationRules, validate, sanitizeInput } from '../util/validation';
 
 const router: Router = express.Router();
 
@@ -19,6 +19,7 @@ router.get('/', playlistController.getAllPlaylists);
 router.post(
   '/',
   isAuthenticated,
+  sanitizeInput,
   playlistValidationRules,
   validate,
   playlistController.createPlaylist
@@ -35,6 +36,7 @@ router.get('/:id', playlistController.getPlaylistById);
 router.put(
   '/:id',
   isAuthenticated,
+  sanitizeInput,
   playlistValidationRules,
   validate,
   playlistController.updatePlaylist

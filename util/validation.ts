@@ -33,6 +33,26 @@ export const playlistValidationRules: ValidationChain[] = [
     .withMessage('Invalid genre')
 ];
 
+// Middleware to sanitize input against NoSQL injection
+export const sanitizeInput: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
+  const sanitize = (obj: any): any => {
+    if (obj instanceof Object) {
+      for (const key in obj) {
+        if (key.startsWith('$') || key.includes('.')) {
+          delete obj[key];
+        } else {
+          sanitize(obj[key]);
+        }
+      }
+    }
+    return obj;
+  };
+
+  if (req.body) sanitize(req.body);
+  if (req.params) sanitize(req.params);
+  next();
+};
+
 // Middleware to check for validation errors
 export const validate: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);

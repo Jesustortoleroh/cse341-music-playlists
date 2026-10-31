@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction, Router } from 'express';
 import * as userController from '../controllers/user';
-import { userValidationRules, validate } from '../util/validation';
+import { userValidationRules, validate, sanitizeInput } from '../util/validation';
 
 const router: Router = express.Router();
 
@@ -16,7 +16,7 @@ router.get('/', userController.getAllUsers);
 // #swagger.summary = 'Get all users'
 
 // POST create new user
-router.post('/', userValidationRules, validate, userController.createUser);
+router.post('/', sanitizeInput, userValidationRules, validate, userController.createUser);
 // #swagger.tags = ['Users']
 // #swagger.summary = 'Create a new user'
 
@@ -26,7 +26,7 @@ router.get('/:id', userController.getUserById);
 // #swagger.summary = 'Get user by ID'
 
 // PUT update user
-router.put('/:id', isAuthenticated, userValidationRules, validate, userController.updateUser);
+router.put('/:id', isAuthenticated, sanitizeInput, userValidationRules, validate, userController.updateUser);
 // #swagger.tags = ['Users']
 // #swagger.summary = 'Update a user'
 

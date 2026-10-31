@@ -11,6 +11,8 @@ const port = process.env.PORT ?? 3000;
 const app = express();
 
 // Security & Standard Middleware
+app.set('trust proxy', 1); 
+
 app
   .use(helmet({ contentSecurityPolicy: false }))
   .use(cors())

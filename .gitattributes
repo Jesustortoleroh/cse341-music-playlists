@@ -1,0 +1,9 @@
+# Force GitHub to recognize TypeScript
+*.ts linguist-language=TypeScript
+
+# Ignore compiled output and dependencies for language stats
+dist/ linguist-vendored
+node_modules/ linguist-vendored
+
+# Also recognize GraphQL
+*.graphql linguist-language=GraphQL

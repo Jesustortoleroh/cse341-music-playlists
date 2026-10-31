@@ -23,6 +23,7 @@
   "dependencies": {
     "@apollo/server": "^5.5.1",
     "@as-integrations/express5": "^1.1.2",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "bcryptjs": "^3.0.3",
     "connect-mongo": "^6.0.0",
     "cors": "^2.8.6",
@@ -38,7 +39,8 @@
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
     "swagger-autogen": "^2.23.7",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -53,12 +55,10 @@
     "@types/swagger-ui-express": "^4.1.8",
     "@typescript-eslint/eslint-plugin": "^8.72.1",
     "@typescript-eslint/parser": "^8.72.1",
-    "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.13.0",
     "globals": "^17.13.0",
     "nodemon": "^3.1.14",
     "prettier": "^3.9.10",
-    "tsx": "^4.23.15",
-    "typescript": "npm:@typescript/typescript6@^6.0.2"
+    "tsx": "^4.23.15"
   }
 }

@@ -61,20 +61,21 @@ const startServer = async (): Promise<void> => {
     await db.mongoose.connect(db.url);
     console.log('MongoDB connected');
 
-    // 1. Create HTTP server (required for Apollo's graceful shutdown plugin)
+    //  Create HTTP server (required for Apollo's graceful shutdown plugin)
     const httpServer = http.createServer(app);
 
-    // 2. Configure Apollo Server
+    //  Configure Apollo Server
     const apolloServer = new ApolloServer({
       typeDefs,
       resolvers,
+      introspection: true,
       plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
     });
 
-    // 3. IMPORTANT: Wait for Apollo to start
+    //  IMPORTANT: Wait for Apollo to start
     await apolloServer.start();
 
-    // 4. Mount Apollo middleware at /graphql (after Passport session setup)
+    // Mount Apollo middleware at /graphql (after Passport session setup)
     app.use(
       '/graphql',
       expressMiddleware(apolloServer, {
@@ -82,10 +83,10 @@ const startServer = async (): Promise<void> => {
       })
     );
 
-    // 5. Mount REST routes (Swagger) - Keep for documentation purposes
+    // Mount REST routes (Swagger) - Keep for documentation purposes
     app.use('/', routes);
 
-    // 6. Listen on httpServer (not app directly)
+    // Listen on httpServer (not app directly)
     httpServer.listen(port, () => {
       console.log(`DB Connected and server running on port ${port}.`);
       console.log(`API Documentation at http://localhost:${port}/api-docs`);

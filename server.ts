@@ -11,6 +11,7 @@ import http from 'http';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@as-integrations/express5';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 import db from './models';
 import initializePassport from './config/passport';
@@ -61,18 +62,22 @@ const startServer = async (): Promise<void> => {
     await db.mongoose.connect(db.url);
     console.log('MongoDB connected');
 
-    //  Create HTTP server (required for Apollo's graceful shutdown plugin)
+    // Create HTTP server (required for Apollo's graceful shutdown plugin)
     const httpServer = http.createServer(app);
 
-    //  Configure Apollo Server
+    // Configure Apollo Server with Sandbox enabled
     const apolloServer = new ApolloServer({
       typeDefs,
       resolvers,
-      introspection: true,
-      plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
+      introspection: true, // Required for Sandbox
+      plugins: [
+        ApolloServerPluginDrainHttpServer({ httpServer }),
+        // Use LocalDefault to show the Sandbox without needing Apollo Studio
+        ApolloServerPluginLandingPageLocalDefault({ embed: true })
+      ]
     });
 
-    //  IMPORTANT: Wait for Apollo to start
+    // Wait for Apollo to start
     await apolloServer.start();
 
     // Mount Apollo middleware at /graphql (after Passport session setup)

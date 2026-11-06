@@ -10,4 +10,5 @@ swagger.json linguist-vendored
 
 # Ignore compiled output and dependencies
 dist/ linguist-vendored
+dist/** linguist-generated=true
 node_modules/ linguist-vendored

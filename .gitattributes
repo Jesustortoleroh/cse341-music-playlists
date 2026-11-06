@@ -1,9 +1,13 @@
-# Force GitHub to recognize TypeScript
+# Force TypeScript
 *.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
 
-# Ignore compiled output and dependencies for language stats
+# Ignore config files from language stats
+eslint.config.js linguist-vendored
+prettier.config.js linguist-vendored
+package-lock.json linguist-vendored
+swagger.json linguist-vendored
+
+# Ignore compiled output and dependencies
 dist/ linguist-vendored
 node_modules/ linguist-vendored
-
-# Also recognize GraphQL
-*.graphql linguist-language=GraphQL

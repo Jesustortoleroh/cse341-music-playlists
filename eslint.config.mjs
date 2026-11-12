@@ -1,9 +1,9 @@
-const js = require('@eslint/js');
-const tseslint = require('@typescript-eslint/eslint-plugin');
-const tsparser = require('@typescript-eslint/parser');
-const globals = require('globals');
+import js from '@eslint/js';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsparser from '@typescript-eslint/parser';
+import globals from 'globals';
 
-module.exports = [
+export default [
   js.configs.recommended,
   {
     files: ['**/*.ts'],
@@ -23,7 +23,6 @@ module.exports = [
     rules: {
       ...tseslint.configs.recommended.rules,
       'no-console': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }]
     }

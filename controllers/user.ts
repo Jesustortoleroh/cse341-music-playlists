@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import db from '../models';
+import * as userService from '../services/user.service';
 import { IUser } from '../models/User';
-
-const User = db.User;
 
 // POST create new user
 export const createUser = async (req: Request, res: Response): Promise<void> => {
@@ -12,13 +10,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
       return;
     }
 
-    const user = new User(req.body);
-    const data = await user.save();
-
-    // Hide password from the response
-    const userResponse = data.toObject();
-    delete userResponse.password;
-
+    const userResponse = await userService.createUser(req.body);
     res.status(201).json({ success: true, message: 'User created', data: userResponse });
   } catch (err: unknown) {
     if (err && typeof err === 'object' && 'code' in err && err.code === 11000) {
@@ -34,7 +26,7 @@ export const createUser = async (req: Request, res: Response): Promise<void> => 
 // GET all users
 export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const data = await User.find();
+    const data = await userService.getAllUsers();
     res.status(200).json({ success: true, count: data.length, data: data });
   } catch (err: unknown) {
     const message =
@@ -46,7 +38,8 @@ export const getAllUsers = async (req: Request, res: Response): Promise<void> =>
 // GET user by ID
 export const getUserById = async (req: Request, res: Response): Promise<void> => {
   try {
-    const data = await User.findById(req.params.id);
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+    const data = await userService.getUserById(id);
     if (!data) {
       res.status(404).json({ message: 'User not found' });
       return;
@@ -61,13 +54,13 @@ export const getUserById = async (req: Request, res: Response): Promise<void> =>
 // PUT update user
 export const updateUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = req.params.id;
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
     if (!id) {
       res.status(400).json({ message: 'Invalid ID Supplied' });
       return;
     }
 
-    const data = await User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
+    const data = await userService.updateUser(id, req.body);
     if (!data) {
       res.status(404).json({ message: 'User not found' });
       return;
@@ -82,13 +75,13 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
 // DELETE user
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const id = req.params.id;
+    const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
     if (!id) {
       res.status(400).json({ message: 'Invalid ID Supplied' });
       return;
     }
 
-    const data = await User.findByIdAndDelete(id);
+    const data = await userService.deleteUser(id);
     if (!data) {
       res.status(404).json({ message: 'User not found' });
       return;
@@ -105,27 +98,10 @@ export const findOrCreateOAuthUser = async (
   profile: { email: string; name: string },
   provider: string
 ): Promise<IUser> => {
-  let currentUser = await User.findOne({ email: profile.email });
-
-  if (currentUser) {
-    // Return without the 'as IUser' cast (TypeScript knows it's not null)
-    return currentUser;
-  }
-
-  const newUser = new User({
-    name: profile.name,
-    email: profile.email,
-    provider: provider,
-    role: 'user'
-  });
-
-  await newUser.save();
-  // Return without the 'as IUser' cast
-  return newUser;
+  return await userService.findOrCreateOAuthUser(profile, provider);
 };
 
 // Find user by ID (used by Passport for deserialization)
 export const getUserByIdForAuth = async (id: string): Promise<IUser | null> => {
-  // Return without the cast; Mongoose's Document type is assignable to IUser
-  return await User.findById(id);
+  return await userService.getUserByIdForAuth(id);
 };

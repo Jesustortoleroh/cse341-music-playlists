@@ -26,7 +26,14 @@ router.get('/:id', userController.getUserById);
 // #swagger.summary = 'Get user by ID'
 
 // PUT update user
-router.put('/:id', isAuthenticated, sanitizeInput, userValidationRules, validate, userController.updateUser);
+router.put(
+  '/:id',
+  isAuthenticated,
+  sanitizeInput,
+  userValidationRules,
+  validate,
+  userController.updateUser
+);
 // #swagger.tags = ['Users']
 // #swagger.summary = 'Update a user'
 

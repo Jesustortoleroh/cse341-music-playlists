@@ -24,10 +24,11 @@ This API allows users to manage music playlists. It includes a complete CRUD sys
 The project uses **MongoDB Atlas** as the database, connected via Mongoose.
 
 ### Collections
-| Collection | Description | Fields |
-| :--- | :--- | :--- |
-| `users` | Stores user accounts (local and OAuth). | name, email, password (hashed), role, provider |
-| `playlists` | Stores music playlists. | name, description, creator, genre, songs, isPublic, coverImage |
+
+| Collection  | Description                             | Fields                                                         |
+| :---------- | :-------------------------------------- | :------------------------------------------------------------- |
+| `users`     | Stores user accounts (local and OAuth). | name, email, password (hashed), role, provider                 |
+| `playlists` | Stores music playlists.                 | name, description, creator, genre, songs, isPublic, coverImage |
 
 The `playlists` collection contains **8 fields**, meeting the project requirement of at least 7 fields. The `users` collection stores credentials securely using `bcrypt` for local users, while OAuth users are identified by their provider.
 
@@ -37,3 +38,4 @@ The `playlists` collection contains **8 fields**, meeting the project requiremen
    ```bash
    git clone https://github.com/Jesustortoleroh/cse341-music-playlists.git
    cd cse341-music-playlists
+   ```

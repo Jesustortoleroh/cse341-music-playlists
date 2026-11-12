@@ -22,84 +22,87 @@ interface GitHubEmail {
 }
 
 export default (passport: PassportStatic) => {
-  // --- GITHUB STRATEGY ---
-  passport.use(
-    new GitHubStrategy(
-      {
-        clientID: process.env.GITHUB_CLIENT_ID as string,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-        callbackURL:
-          process.env.NODE_ENV === 'production'
-            ? 'https://cse341-music-playlists.onrender.com/auth/github/callback'
-            : 'http://localhost:3000/auth/github/callback',
-        passReqToCallback: false
-      },
-      async (
-        accessToken: string,
-        refreshToken: string,
-        profile: GitHubProfile,
-        done: VerifyCallback
-      ) => {
-        try {
-          let email = profile.emails?.[0]?.value ?? null;
+  // Only initialize OAuth strategies if not in test environment
+  if (process.env.NODE_ENV !== 'test') {
+    // --- GITHUB STRATEGY ---
+    passport.use(
+      new GitHubStrategy(
+        {
+          clientID: process.env.GITHUB_CLIENT_ID as string,
+          clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+          callbackURL:
+            process.env.NODE_ENV === 'production'
+              ? 'https://cse341-music-playlists.onrender.com/auth/github/callback'
+              : 'http://localhost:3000/auth/github/callback',
+          passReqToCallback: false
+        },
+        async (
+          accessToken: string,
+          refreshToken: string,
+          profile: GitHubProfile,
+          done: VerifyCallback
+        ) => {
+          try {
+            let email = profile.emails?.[0]?.value ?? null;
 
-          if (!email) {
-            const response = await fetch('https://api.github.com/user/emails', {
-              headers: { Authorization: `token ${accessToken}` }
-            });
-            const emails = (await response.json()) as GitHubEmail[];
-            const primaryEmail = emails.find((e) => e.primary);
-            email = primaryEmail?.email ?? `${profile.username}@github.com`;
+            if (!email) {
+              const response = await fetch('https://api.github.com/user/emails', {
+                headers: { Authorization: `token ${accessToken}` }
+              });
+              const emails = (await response.json()) as GitHubEmail[];
+              const primaryEmail = emails.find((e) => e.primary);
+              email = primaryEmail?.email ?? `${profile.username}@github.com`;
+            }
+
+            const userData = {
+              email: email,
+              name: profile.displayName ?? profile.username ?? 'GitHub User'
+            };
+
+            const user = await userController.findOrCreateOAuthUser(userData, 'github');
+            return done(null, user as IUser);
+          } catch (err: unknown) {
+            return done(err instanceof Error ? err : new Error('OAuth error'));
           }
-
-          const userData = {
-            email: email,
-            name: profile.displayName ?? profile.username ?? 'GitHub User'
-          };
-
-          const user = await userController.findOrCreateOAuthUser(userData, 'github');
-          return done(null, user as IUser);
-        } catch (err: unknown) {
-          return done(err instanceof Error ? err : new Error('OAuth error'));
         }
-      }
-    )
-  );
+      )
+    );
 
-  // --- GOOGLE STRATEGY ---
-  passport.use(
-    new GoogleStrategy(
-      {
-        clientID: process.env.GOOGLE_CLIENT_ID as string,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-        callbackURL:
-          process.env.NODE_ENV === 'production'
-            ? 'https://cse341-music-playlists.onrender.com/auth/google/callback'
-            : 'http://localhost:3000/auth/google/callback',
-        passReqToCallback: true
-      },
-      async (
-        req: Request,
-        accessToken: string,
-        refreshToken: string,
-        params: GoogleCallbackParameters,
-        profile: GoogleProfile,
-        done: VerifyCallback
-      ) => {
-        try {
-          const userData = {
-            email: profile.emails![0].value,
-            name: profile.displayName ?? profile.name?.givenName ?? 'Google User'
-          };
+    // --- GOOGLE STRATEGY ---
+    passport.use(
+      new GoogleStrategy(
+        {
+          clientID: process.env.GOOGLE_CLIENT_ID as string,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+          callbackURL:
+            process.env.NODE_ENV === 'production'
+              ? 'https://cse341-music-playlists.onrender.com/auth/google/callback'
+              : 'http://localhost:3000/auth/google/callback',
+          passReqToCallback: true
+        },
+        async (
+          req: Request,
+          accessToken: string,
+          refreshToken: string,
+          params: GoogleCallbackParameters,
+          profile: GoogleProfile,
+          done: VerifyCallback
+        ) => {
+          try {
+            const userData = {
+              email: profile.emails![0].value,
+              name: profile.displayName ?? profile.name?.givenName ?? 'Google User'
+            };
 
-          const user = await userController.findOrCreateOAuthUser(userData, 'google');
-          return done(null, user as IUser);
-        } catch (err: unknown) {
-          return done(err instanceof Error ? err : new Error('OAuth error'));
+            const user = await userController.findOrCreateOAuthUser(userData, 'google');
+            return done(null, user as IUser);
+          } catch (err: unknown) {
+            return done(err instanceof Error ? err : new Error('OAuth error'));
+          }
         }
-      }
-    )
-  );
+      )
+    );
+  }
 
   // --- SESSION MANAGEMENT ---
   // Serialize user to store in session (saves user ID in the cookie)

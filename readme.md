@@ -4,7 +4,7 @@ REST API for managing music playlists. CSE 341 Project - BYU-Idaho.
 
 ## 📋 Description
 
-This API allows users to manage music playlists. It includes a complete CRUD system with GET, POST, PUT, and DELETE endpoints for both playlists and users. It also features **OAuth 2.0 authentication** (GitHub and Google), data validation, error handling, and auto-generated Swagger documentation. The entire backend is built with **TypeScript**, and it includes a **GraphQL** endpoint (Extra Credit).
+This API allows users to manage music playlists. It includes a complete CRUD system with GET, POST, PUT, and DELETE endpoints for both playlists and users. It also features **OAuth 2.0 authentication** (GitHub and Google), data validation, error handling, and auto-generated Swagger documentation. The entire backend is built with **TypeScript** and follows a **Service Layer** architecture. It also includes a **GraphQL** endpoint (Extra Credit).
 
 ## 🚀 Technologies
 
@@ -18,6 +18,8 @@ This API allows users to manage music playlists. It includes a complete CRUD sys
 - **express-validator** (for data validation)
 - **Helmet** & **CORS** (for security)
 - **dotenv** (for environment variables)
+- **Jest** & **Supertest** (for testing)
+- **GitHub Actions** (for CI/CD)
 
 ## 🗄️ Database
 
@@ -32,10 +34,24 @@ The project uses **MongoDB Atlas** as the database, connected via Mongoose.
 
 The `playlists` collection contains **8 fields**, meeting the project requirement of at least 7 fields. The `users` collection stores credentials securely using `bcrypt` for local users, while OAuth users are identified by their provider.
 
+## 🏗️ Architecture
+
+The project follows a **Service Layer** pattern:
+
+- `controllers/`: Handle HTTP requests and responses.
+- `services/`: Contain all business logic and database queries (reusable by REST and GraphQL).
+- `models/`: Mongoose schemas and interfaces.
+- `routes/`: Define API endpoints.
+- `graphql/`: Apollo Server type definitions and resolvers.
+
+## 🧪 Testing & CI/CD
+
+- **Unit Tests:** Run `npm test` to execute Jest tests for the API.
+- **Continuous Integration:** A GitHub Actions workflow (`.github/workflows/ci.yml`) runs the linter, tests, and build on every push to `main`.
+
 ## 🛠️ How to Run Locally
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/Jesustortoleroh/cse341-music-playlists.git
    cd cse341-music-playlists
-   ```

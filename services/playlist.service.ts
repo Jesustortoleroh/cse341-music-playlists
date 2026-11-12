@@ -1,20 +1,23 @@
 import db from '../models';
 import { IPlaylist } from '../models/Playlist';
+import { HydratedDocument } from 'mongoose';
 
 const Playlist = db.Playlist;
 
 // Get all playlists
-export const getAllPlaylists = async (): Promise<IPlaylist[]> => {
+export const getAllPlaylists = async (): Promise<HydratedDocument<IPlaylist>[]> => {
   return await Playlist.find();
 };
 
 // Get playlist by ID
-export const getPlaylistById = async (id: string): Promise<IPlaylist | null> => {
+export const getPlaylistById = async (id: string): Promise<HydratedDocument<IPlaylist> | null> => {
   return await Playlist.findById(id);
 };
 
 // Create a new playlist
-export const createPlaylist = async (playlistData: Partial<IPlaylist>): Promise<IPlaylist> => {
+export const createPlaylist = async (
+  playlistData: Partial<IPlaylist>
+): Promise<HydratedDocument<IPlaylist>> => {
   const playlist = new Playlist(playlistData);
   return await playlist.save();
 };
@@ -23,7 +26,7 @@ export const createPlaylist = async (playlistData: Partial<IPlaylist>): Promise<
 export const updatePlaylist = async (
   id: string,
   playlistData: Partial<IPlaylist>
-): Promise<IPlaylist | null> => {
+): Promise<HydratedDocument<IPlaylist> | null> => {
   return await Playlist.findByIdAndUpdate(id, playlistData, {
     new: true,
     runValidators: true
@@ -31,6 +34,6 @@ export const updatePlaylist = async (
 };
 
 // Delete a playlist
-export const deletePlaylist = async (id: string): Promise<IPlaylist | null> => {
+export const deletePlaylist = async (id: string): Promise<HydratedDocument<IPlaylist> | null> => {
   return await Playlist.findByIdAndDelete(id);
 };

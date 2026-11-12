@@ -22,13 +22,12 @@ import { resolvers } from './graphql/resolvers';
 const port: number = parseInt(process.env.PORT || '3000', 10);
 const app: Application = express();
 
-// Security & Standard Middleware
+// --- STANDARD MIDDLEWARE ---
 app
   .use(helmet({ contentSecurityPolicy: false }))
   .use(cors())
   .use(express.json({ limit: '10kb' }))
   .use(express.urlencoded({ extended: true, limit: '10kb' }))
-  // Session configuration (Required for Passport)
   .use(
     session({
       secret: process.env.SESSION_SECRET as string,
@@ -36,13 +35,13 @@ app
       saveUninitialized: false,
       store: MongoStore.create({
         mongoUrl: process.env.MONGO_URI as string,
-        ttl: 14 * 24 * 60 * 60 // Time to live: 14 days
+        ttl: 14 * 24 * 60 * 60
       }),
       cookie: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
         sameSite: 'lax',
-        maxAge: 1000 * 60 * 60 * 24 // 1 day
+        maxAge: 1000 * 60 * 60 * 24
       }
     })
   )
@@ -52,7 +51,25 @@ app
 // Initialize Passport strategies
 initializePassport(passport);
 
-// Database Connection and Server Start
+// --- MOUNT ROUTES (OUTSIDE startServer) ---
+app.use('/', routes);
+
+// --- EXPORT APP FOR TESTING ---
+export { app };
+
+// --- APOLLO SERVER & HTTP SERVER SETUP ---
+const httpServer = http.createServer(app);
+const apolloServer = new ApolloServer({
+  typeDefs,
+  resolvers,
+  introspection: true,
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    ApolloServerPluginLandingPageLocalDefault({ embed: true })
+  ]
+});
+
+// --- DATABASE CONNECTION & SERVER START ---
 const startServer = async (): Promise<void> => {
   try {
     if (!db.url) {
@@ -62,25 +79,10 @@ const startServer = async (): Promise<void> => {
     await db.mongoose.connect(db.url);
     console.log('MongoDB connected');
 
-    // Create HTTP server (required for Apollo's graceful shutdown plugin)
-    const httpServer = http.createServer(app);
-
-    // Configure Apollo Server with Sandbox enabled
-    const apolloServer = new ApolloServer({
-      typeDefs,
-      resolvers,
-      introspection: true, // Required for Sandbox
-      plugins: [
-        ApolloServerPluginDrainHttpServer({ httpServer }),
-        // Use LocalDefault to show the Sandbox without needing Apollo Studio
-        ApolloServerPluginLandingPageLocalDefault({ embed: true })
-      ]
-    });
-
-    // Wait for Apollo to start
+    // Start Apollo Server
     await apolloServer.start();
 
-    // Mount Apollo middleware at /graphql (after Passport session setup)
+    // Mount Apollo middleware
     app.use(
       '/graphql',
       expressMiddleware(apolloServer, {
@@ -88,10 +90,7 @@ const startServer = async (): Promise<void> => {
       })
     );
 
-    // Mount REST routes (Swagger) - Keep for documentation purposes
-    app.use('/', routes);
-
-    // Listen on httpServer (not app directly)
+    // Listen on httpServer
     httpServer.listen(port, () => {
       console.log(`DB Connected and server running on port ${port}.`);
       console.log(`API Documentation at http://localhost:${port}/api-docs`);
@@ -107,5 +106,7 @@ const startServer = async (): Promise<void> => {
   }
 };
 
-// START THE SERVER
-startServer();
+// --- START SERVER ONLY IF RUN DIRECTLY ---
+if (require.main === module) {
+  startServer();
+}

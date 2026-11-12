@@ -2,17 +2,15 @@
 
 REST API for managing music playlists. CSE 341 Project - BYU-Idaho.
 
-## 🗄️ Database
+## 📋 Description
 
-This API allows users to manage music playlists. It includes a complete CRUD system with GET, POST, PUT, and DELETE endpoints for both playlists and users. It also features **OAuth 2.0 authentication** (GitHub and Google), data validation, error handling, and auto-generated Swagger documentation.
+This API allows users to manage music playlists. It includes a complete CRUD system with GET, POST, PUT, and DELETE endpoints for both playlists and users. It also features **OAuth 2.0 authentication** (GitHub and Google), data validation, error handling, and auto-generated Swagger documentation. The entire backend is built with **TypeScript**, and it includes a **GraphQL** endpoint (Extra Credit).
 
-### Collections
-| Collection | Description | Fields |
-| :--- | :--- | :--- |
-| `users` | Stores user accounts (local and OAuth). | name, email, password (hashed), role, provider |
-| `playlists` | Stores music playlists. | name, description, creator, genre, songs, isPublic, coverImage |
+## 🚀 Technologies
 
 - **Node.js** & **Express 5**
+- **TypeScript**
+- **Apollo Server (GraphQL)**
 - **MongoDB** & **Mongoose 9**
 - **Passport.js** (OAuth with GitHub and Google)
 - **Swagger** (`swagger-autogen` + `swagger-ui-express`)

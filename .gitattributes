@@ -2,7 +2,8 @@
 *.ts linguist-language=TypeScript
 *.tsx linguist-language=TypeScript
 
-# Ignore config files from language stats
+# Ignore ALL JavaScript files from language stats (including configs)
+*.js linguist-vendored
 eslint.config.js linguist-vendored
 prettier.config.js linguist-vendored
 package-lock.json linguist-vendored

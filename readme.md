@@ -1,13 +1,28 @@
-# 🎵 Music Playlists API
+# 🎵 Music Playlists API - TypeScript & GraphQL
 
+<<<<<<< HEAD
 REST API for managing music playlists. CSE 341 Project - BYU-Idaho.
+=======
+This is the **Extra Credit** version of my CSE 341 project. It includes two advanced features:
+1.  **TypeScript:** The entire backend is written in `.ts` with strict typing (no `.js` files).
+2.  **GraphQL:** REST is replaced by Apollo Server, providing a single `/graphql` endpoint.
+>>>>>>> aed8cf0d6aed9f21bbe13af8368dea65def48d59
 
-## 📋 Description
+## 🗄️ Database
 
+<<<<<<< HEAD
 This API allows users to manage music playlists. It includes a complete CRUD system with GET, POST, PUT, and DELETE endpoints for both playlists and users. It also features **OAuth 2.0 authentication** (GitHub and Google), data validation, error handling, and auto-generated Swagger documentation.
+=======
+This project uses **MongoDB Atlas** as the database. The connection is established via Mongoose.
+>>>>>>> aed8cf0d6aed9f21bbe13af8368dea65def48d59
 
-## 🚀 Technologies
+### Collections
+| Collection | Description | Fields |
+| :--- | :--- | :--- |
+| `users` | Stores user accounts (local and OAuth). | name, email, password (hashed), role, provider |
+| `playlists` | Stores music playlists. | name, description, creator, genre, songs, isPublic, coverImage |
 
+<<<<<<< HEAD
 - **Node.js** & **Express 5**
 - **MongoDB** & **Mongoose 9**
 - **Passport.js** (OAuth with GitHub and Google)
@@ -35,3 +50,17 @@ The `playlists` collection contains **8 fields**, meeting the project requiremen
    ```bash
    git clone https://github.com/Jesustortoleroh/cse341-music-playlists.git
    cd cse341-music-playlists
+=======
+The `playlists` collection is the primary collection and contains **8 fields**, meeting the project requirement of at least 7 fields. The `users` collection stores credentials securely using `bcrypt` for local users, while OAuth users are identified by their provider.
+
+## 🚀 Live Demo
+- **GraphQL Sandbox:** [https://cse341-music-playlists-ts.onrender.com/graphql](https://cse341-music-playlists-ts.onrender.com/graphql)
+
+## 🛠️ How to Run Locally
+
+1. Clone the repository and switch to the correct branch:
+   ```bash
+   git clone https://github.com/Jesustortoleroh/cse341-music-playlists.git
+   cd cse341-music-playlists
+   git checkout extra-typescript-graphql
+>>>>>>> aed8cf0d6aed9f21bbe13af8368dea65def48d59

@@ -1,4 +1,4 @@
-const swaggerAutogen = require('swagger-autogen')();
+import swaggerAutogen from 'swagger-autogen';
 
 const doc = {
   info: {
@@ -9,7 +9,10 @@ const doc = {
   host: 'cse341-music-playlists.onrender.com',
   schemes: ['https'],
   basePath: '/',
+<<<<<<< HEAD:swagger.js
   // Add security definitions for OAuth session cookies
+=======
+>>>>>>> aed8cf0d6aed9f21bbe13af8368dea65def48d59:swagger.ts
   securityDefinitions: {
     session: {
       type: 'apiKey',
@@ -52,7 +55,11 @@ const doc = {
       name: 'Jesus Tortolero',
       email: 'jesus@example.com',
       role: 'user',
+<<<<<<< HEAD:swagger.js
       provider: 'github', // <-- Nuevo campo para OAuth
+=======
+      provider: 'github',
+>>>>>>> aed8cf0d6aed9f21bbe13af8368dea65def48d59:swagger.ts
       createdAt: '2026-10-17T00:00:00.000Z',
       updatedAt: '2026-10-17T00:00:00.000Z'
     }
@@ -60,6 +67,14 @@ const doc = {
 };
 
 const outputFile = './swagger.json';
+<<<<<<< HEAD:swagger.js
 const endpointsFiles = ['./routes/playlist.js', './routes/user.js'];
+=======
+const endpointsFiles = ['./routes/playlist.ts', './routes/user.ts'];
+>>>>>>> aed8cf0d6aed9f21bbe13af8368dea65def48d59:swagger.ts
 
-swaggerAutogen(outputFile, endpointsFiles, doc);
+// Handle the Promise to satisfy TypeScript
+(async () => {
+  await swaggerAutogen(outputFile, endpointsFiles, doc);
+  console.log('Swagger documentation generated successfully.');
+})();

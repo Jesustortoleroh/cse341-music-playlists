@@ -1,0 +1,14 @@
+# Force TypeScript
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+
+# Ignore config files from language stats
+eslint.config.js linguist-vendored
+prettier.config.js linguist-vendored
+package-lock.json linguist-vendored
+swagger.json linguist-vendored
+
+# Ignore compiled output and dependencies
+dist/ linguist-vendored
+dist/** linguist-generated=true
+node_modules/ linguist-vendored

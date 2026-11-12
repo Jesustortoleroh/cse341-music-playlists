@@ -1,10 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const playlistController = require('../controllers/playlist');
-const { playlistValidationRules, validate } = require('../util/validation');
+import express, { Request, Response, NextFunction, Router } from 'express';
+import * as playlistController from '../controllers/playlist';
+import { playlistValidationRules, validate, sanitizeInput } from '../util/validation';
+
+const router: Router = express.Router();
 
 // Middleware to check if user is authenticated
-const isAuthenticated = (req, res, next) => {
+const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
   if (req.isAuthenticated()) return next();
   res.status(401).json({ message: 'You must be logged in to perform this action' });
 };
@@ -14,10 +15,11 @@ router.get('/', playlistController.getAllPlaylists);
 // #swagger.tags = ['Playlists']
 // #swagger.summary = 'Get all playlists'
 
-// POST create new playlist (Protected)
+// POST create new playlist
 router.post(
   '/',
   isAuthenticated,
+  sanitizeInput,
   playlistValidationRules,
   validate,
   playlistController.createPlaylist
@@ -30,10 +32,11 @@ router.get('/:id', playlistController.getPlaylistById);
 // #swagger.tags = ['Playlists']
 // #swagger.summary = 'Get playlist by ID'
 
-// PUT update playlist (Protected)
+// PUT update playlist
 router.put(
   '/:id',
   isAuthenticated,
+  sanitizeInput,
   playlistValidationRules,
   validate,
   playlistController.updatePlaylist
@@ -41,9 +44,9 @@ router.put(
 // #swagger.tags = ['Playlists']
 // #swagger.summary = 'Update a playlist'
 
-// DELETE playlist (Protected)
+// DELETE playlist
 router.delete('/:id', isAuthenticated, playlistController.deletePlaylist);
 // #swagger.tags = ['Playlists']
 // #swagger.summary = 'Delete a playlist'
 
-module.exports = router;
+export default router;

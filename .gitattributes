@@ -1,15 +1,20 @@
-# Force TypeScript
+# Force TypeScript as the primary language
 *.ts linguist-language=TypeScript
 *.tsx linguist-language=TypeScript
 
-# Ignore ALL JavaScript files from language stats (including configs)
+# Ignore all JavaScript files (including .mjs and configs) from stats
 *.js linguist-vendored
-eslint.config.js linguist-vendored
+*.mjs linguist-vendored
+*.cjs linguist-vendored
+eslint.config.mjs linguist-vendored
 prettier.config.js linguist-vendored
+
+# Ignore files that are not source code
 package-lock.json linguist-vendored
 swagger.json linguist-vendored
+*.md linguist-vendored
 
-# Ignore compiled output and dependencies
+# Ignore generated folders
 dist/ linguist-vendored
 dist/** linguist-generated=true
 node_modules/ linguist-vendored

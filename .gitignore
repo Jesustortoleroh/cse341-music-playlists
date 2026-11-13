@@ -7,3 +7,4 @@ npm-debug.log*
 .vscode/
 .idea/
 dist/
+cse341-music-playlists-client.code-workspace

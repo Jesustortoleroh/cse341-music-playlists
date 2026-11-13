@@ -20,6 +20,7 @@ This API allows users to manage music playlists. It includes a complete CRUD sys
 - **dotenv** (for environment variables)
 - **Jest** & **Supertest** (for testing)
 - **GitHub Actions** (for CI/CD)
+- **Docker** & **Docker Compose** (for containerization)
 
 ## 🗄️ Database
 
@@ -48,6 +49,20 @@ The project follows a **Service Layer** pattern:
 
 - **Unit Tests:** Run `npm test` to execute Jest tests for the API.
 - **Continuous Integration:** A GitHub Actions workflow (`.github/workflows/ci.yml`) runs the linter, tests, and build on every push to `main`.
+
+## 🐳 Docker
+
+The project is fully containerized. You can run the API and MongoDB together using Docker Compose.
+
+### Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
+
+### Run with Docker
+
+1.  Make sure you have a `.env` file with your environment variables (see below).
+2.  Build and start the containers:
+    ```bash
+    docker compose up --build
 
 ## 🛠️ How to Run Locally
 

@@ -32,7 +32,7 @@ export default (passport: PassportStatic) => {
           clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
           callbackURL:
             process.env.NODE_ENV === 'production'
-              ? 'https://cse341-music-playlists.onrender.com/auth/github/callback'
+              ? 'https://cse341-music-playlists-ts.onrender.com/auth/github/callback' // <-- CORREGIDO
               : 'http://localhost:3000/auth/github/callback',
           passReqToCallback: false
         },
@@ -76,7 +76,7 @@ export default (passport: PassportStatic) => {
           clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
           callbackURL:
             process.env.NODE_ENV === 'production'
-              ? 'https://cse341-music-playlists.onrender.com/auth/google/callback'
+              ? 'https://cse341-music-playlists-ts.onrender.com/auth/google/callback' // <-- CORREGIDO
               : 'http://localhost:3000/auth/google/callback',
           passReqToCallback: true
         },

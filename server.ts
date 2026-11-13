@@ -25,7 +25,12 @@ const app: Application = express();
 // --- STANDARD MIDDLEWARE ---
 app
   .use(helmet({ contentSecurityPolicy: false }))
-  .use(cors())
+  .use(
+    cors({
+      origin: 'https://cse341-music-playlists-client.onrender.com', // Frontend URL
+      credentials: true
+    })
+  )
   .use(express.json({ limit: '10kb' }))
   .use(express.urlencoded({ extended: true, limit: '10kb' }))
   .use(

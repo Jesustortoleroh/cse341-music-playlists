@@ -10,7 +10,17 @@ export const userValidationRules: ValidationChain[] = [
     .withMessage('Email is required')
     .isEmail()
     .withMessage('Valid email required'),
-  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
+  body('password')
+    .isStrongPassword({
+      minLength: 8,
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1,
+      minSymbols: 0 // Set to 1 if you want to require symbols
+    })
+    .withMessage(
+      'Password must be at least 8 characters long and include a mix of uppercase, lowercase, and numbers.'
+    )
 ];
 
 // Validation rules for Playlist creation and updates

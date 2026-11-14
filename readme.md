@@ -64,12 +64,3 @@ The project is fully containerized. You can run the API and MongoDB together usi
 2.  Build and start the containers:
     ```bash
     docker compose up --build
-    ```
-
-## 🛠️ How to Run Locally
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Jesustortoleroh/cse341-music-playlists.git
-   cd cse341-music-playlists
-   ```
